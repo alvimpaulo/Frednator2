@@ -65,17 +65,17 @@ QString randString(int len)
 
 //Class Implementation
 
-VideoThread::VideoThread() : isConnected(false), isRecording(false), savePictureLockFlag(false), screenshotCounter(0), firstScreenshot(true), isWebcam(false), isHSV(false)
+VideoThread::VideoThread() : isConnected(false), isRecording(false), savePictureLockFlag(false), screenshotCounter(0), firstScreenshot(true), isWebcam(false)//, isHSV(false)
 {
 #ifdef __unix__
    signal(SIGINT,quit_signal_handler); // listen for ctrl-C
 #endif
-   hsvValues.push_back(0);
-   hsvValues.push_back(0);
-   hsvValues.push_back(0);
-   hsvValues.push_back(0);
-   hsvValues.push_back(0);
-   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
+//   hsvValues.push_back(0);
 
 }
 
@@ -169,28 +169,28 @@ void VideoThread::videoLoop()
 
         imgHeader.data = (uchar*) img[6].GetBinary();
 
-        if(isHSV)
-        {
-            cv::Mat hsvFrame, thresh;
-            cvtColor(imgHeader, hsvFrame,CV_BGR2HSV);
-            inRange(hsvFrame, Scalar(hsvValues[0],hsvValues[2],hsvValues[4]), Scalar(hsvValues[1],hsvValues[3],hsvValues[5]), thresh);
-            imwrite("/home/yuri/nao/workspace/UnBeatables/UnBeatables/frednator/teste.jpg", thresh);
-            QImage image((uchar*)thresh.data, thresh.cols, thresh.rows, thresh.step, QImage::Format_Indexed8);
+//        if(isHSV)
+//        {
+//            cv::Mat hsvFrame, thresh;
+//            cvtColor(imgHeader, hsvFrame,CV_BGR2HSV);
+//            inRange(hsvFrame, Scalar(hsvValues[0],hsvValues[2],hsvValues[4]), Scalar(hsvValues[1],hsvValues[3],hsvValues[5]), thresh);
+//            imwrite("/home/yuri/nao/workspace/UnBeatables/UnBeatables/frednator/teste.jpg", thresh);
+//            QImage image((uchar*)thresh.data, thresh.cols, thresh.rows, thresh.step, QImage::Format_Indexed8);
 
-            imgContainer.image = image;
-            imagePipe.save(imgContainer);
+//            imgContainer.image = image;
+//            imagePipe.save(imgContainer);
 
-            emit sendFrame();
-        }
-        else
-        {
+//            emit sendFrame();
+//        }
+//        else
+//        {
             QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
 
             emit sendFrame();
-        }
+//        }
 
         camProxy->releaseImage(clientName);
 
@@ -207,41 +207,41 @@ void VideoThread::videoLoop()
         (*cap) >> imgHeader;
         if (quit_signal) exit(0); // exit cleanly on interrupt
 
-        if(isHSV)
-        {
-            cv::Mat hsvFrame, thresh;
-            cvtColor(imgHeader, hsvFrame,CV_BGR2HSV);
-            inRange(hsvFrame, Scalar(hsvValues[0],hsvValues[1],hsvValues[2]), Scalar(hsvValues[3],hsvValues[4],hsvValues[5]), thresh);
+//        if(isHSV)
+//        {
+//            cv::Mat hsvFrame, thresh;
+//            cvtColor(imgHeader, hsvFrame,CV_BGR2HSV);
+//            inRange(hsvFrame, Scalar(hsvValues[0],hsvValues[1],hsvValues[2]), Scalar(hsvValues[3],hsvValues[4],hsvValues[5]), thresh);
 
-            int w=thresh.cols;
-            int h=thresh.rows;
-            QImage qim(w,h,QImage::Format_RGB32);
-            QRgb pixel;
-            cv::Mat im;
-            cv::normalize(thresh.clone(),im,0.0,255.0,CV_MINMAX,CV_8UC1);
-            for(int i=0;i<w;i++)
-            {
-                for(int j=0;j<h;j++)
-                {
-                    int gray = (int)im.at<unsigned char>(j, i);
-                    pixel = qRgb(gray,gray,gray);
-                    qim.setPixel(i,j,pixel);
-                }
-            }
+//            int w=thresh.cols;
+//            int h=thresh.rows;
+//            QImage qim(w,h,QImage::Format_RGB32);
+//            QRgb pixel;
+//            cv::Mat im;
+//            cv::normalize(thresh.clone(),im,0.0,255.0,CV_MINMAX,CV_8UC1);
+//            for(int i=0;i<w;i++)
+//            {
+//                for(int j=0;j<h;j++)
+//                {
+//                    int gray = (int)im.at<unsigned char>(j, i);
+//                    pixel = qRgb(gray,gray,gray);
+//                    qim.setPixel(i,j,pixel);
+//                }
+//            }
 
-            imgContainer.image = qim;
-            imagePipe.save(imgContainer);
-            emit sendFrame();
-        }
-        else
-        {
+//            imgContainer.image = qim;
+//            imagePipe.save(imgContainer);
+//            emit sendFrame();
+//        }
+//        else
+//        {
             QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
 
             emit sendFrame();
-        }
+//        }
 
 
         emit sendFrame();
@@ -423,10 +423,10 @@ void VideoThread::savePicture()
     }
 }
 
-void VideoThread::toggleHSV(bool checked) {
-    isHSV = checked;
-}
+//void VideoThread::toggleHSV(bool checked) {
+//    isHSV = checked;
+//}
 
-void VideoThread::changeHSV(int index, int value) {
-    hsvValues[index] = value;
-}
+//void VideoThread::changeHSV(int index, int value) {
+//    hsvValues[index] = value;
+//}
