@@ -42,8 +42,8 @@ Controller::Controller(int argc, char *argv[])
     //Connect the Save Picture Button with the thread routine
     connect(&w, SIGNAL(savePicture()), videoThread, SLOT(savePicture()));
     //Connect the HSV controll
-    connect(&w, SIGNAL(toggleHSV(bool)), videoThread, SLOT(toggleHSV(bool)));
-    connect(&w, SIGNAL(changeHSV(int, int)), videoThread, SLOT(changeHSV(int, int)));
+//    connect(&w, SIGNAL(toggleHSV(bool)), videoThread, SLOT(toggleHSV(bool)));
+//    connect(&w, SIGNAL(changeHSV(int, int)), videoThread, SLOT(changeHSV(int, int)));
 
     workerThread.start();
     prog.exec();
