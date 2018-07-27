@@ -65,19 +65,6 @@ private slots:
 
     void on_pushButton_clicked();
 
-//    void on_h1Slider_valueChanged(int value);
-
-//    void on_h2Slider_valueChanged(int value);
-
-//    void on_s1Slider_valueChanged(int value);
-
-//    void on_s2Slider_valueChanged(int value);
-
-//    void on_v1Slider_valueChanged(int value);
-
-//    void on_v2Slider_valueChanged(int value);
-
-//    void on_hsvCheckBox_toggled(bool checked);
 
 signals:
     void connectCamera(QString naoIP);
@@ -86,8 +73,6 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
-//    void toggleHSV(bool checked);
-//    void changeHSV(int slider, int value);
 
 private:
     Ui::MainWindow *ui;

@@ -30,8 +30,7 @@ public slots:
     void playVideo(const QString &naoIP);
     void videoLoop();
     void savePicture();
-//    void toggleHSV(bool checked);
-//    void changeHSV(int index, int value);
+
 
 private:
     bool isAlive;
@@ -42,7 +41,7 @@ private:
     bool savePictureLockFlag;
     bool firstScreenshot;
     bool isWebcam;
-//    bool isHSV;
+
     int screenshotCounter;
     AL::ALVideoDeviceProxy *camProxy;
     AL::ALVideoRecorderProxy *record;
@@ -56,7 +55,7 @@ private:
     unBoard<frednatorData> imagePipe;
     frednatorData imgContainer;
     cv::VideoCapture *cap;
-//    std::vector<int> hsvValues;
+
 
 public:
     VideoThread();
