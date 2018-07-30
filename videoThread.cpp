@@ -78,91 +78,124 @@ VideoThread::~VideoThread()
 }
 
 
-void VideoThread::playVideo(const QString &naoIP)
+void VideoThread::connectVideo(bool connect, const QString &naoIP)
 {
-    if(isConnected)
-    {
-        return;
-    }
-
-    isAlive = true;
-    storeVideo = false;
-    strIP = naoIP.toUtf8().constData();
-
-    if(naoIP == "0")
-    {
-        isWebcam = true;
-        cap = new cv::VideoCapture;
-        cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-        cap->set(CV_CAP_PROP_FRAME_HEIGHT, 480);
-        if(!cap->open(-1))
+    if(connect){
+        if(isConnected)
         {
-            QString message;
-            message = "Cannot open Webcam.";
-            emit statusMessage(message);
-            return;
-        }
-    }
-    else
-    {
-        isWebcam = false;
-        try
-        {
-            camProxy = new ALVideoDeviceProxy(strIP);
-
-            record = new ALVideoRecorderProxy(strIP);
-        }
-        catch(const AL::ALError &e)
-        {
-            QString message;
-            message = "Cannot connect to robot.";
-            emit statusMessage(message);
             return;
         }
 
-        record->setFrameRate(30);
-        record->setResolution(kVGA);
-        record->setColorSpace(kBGRColorSpace);
+        isAlive = true;
+        storeVideo = false;
+        strIP = naoIP.toUtf8().constData();
 
-        QString rndStr = randString(14);
+        if(naoIP == "0")
+        {
+            isWebcam = true;
+            cap = new cv::VideoCapture;
+            cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
+            cap->set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+            if(!cap->open(0))
+            {
+                QString message;
+                message = "Cannot open Webcam.";
+                emit statusMessage(message);
+                emit connection(false);
+                return;
+            }
+        }
+        else
+        {
+            isWebcam = false;
+            try
+            {
+                camProxy = new ALVideoDeviceProxy(strIP);
 
-        clientName = rndStr.toUtf8().constData();
+                record = new ALVideoRecorderProxy(strIP);
+            }
+            catch(const AL::ALError &e)
+            {
+                QString message;
+                message = "Cannot connect to robot.";
+                emit statusMessage(message);
+                emit connection(false);
+                return;
+            }
 
-        clientName = camProxy->subscribe(clientName, kVGA, kBGRColorSpace, 30);
+            record->setFrameRate(30);
+            record->setResolution(kVGA);
+            record->setColorSpace(kBGRColorSpace);
 
-        /**Change Camera */
-        cout << "Change Camera. " << clientName << endl;
-        camProxy->setParam(kCameraSelectID,0);  //CHANGE TO THE BOTTOM CAMERA (0 - TOP, 1 - BOTTOM)
-        record->setCameraID(0);
-        cameraID = "top";
+            QString rndStr = randString(14);
 
+            clientName = rndStr.toUtf8().constData();
+
+            clientName = camProxy->subscribe(clientName, kVGA, kBGRColorSpace, 30);
+
+            /**Change Camera */
+            cout << "Change Camera. " << clientName << endl;
+            camProxy->setParam(kCameraSelectID,0);  //CHANGE TO THE BOTTOM CAMERA (0 - TOP, 1 - BOTTOM)
+            record->setCameraID(0);
+            cameraID = "top";
+
+        }
+
+        imgHeader = Mat(cv::Size(640, 480), CV_8UC3);
+        imgSafe = Mat(cv::Size(640, 480), CV_8UC3);
+
+        isConnected = true;
+        emit connection(true);
+        emit startLoop();
     }
-
-    imgHeader = Mat(cv::Size(640, 480), CV_8UC3);
-    imgSafe = Mat(cv::Size(640, 480), CV_8UC3);
-
-    isConnected = true;
-
-    emit startLoop();
+    else{
+        //Essa parte ainda não funciona :(
+        isConnected = false;
+        emit connection(false);
+        cout << "desconectando" << endl;
+        if(isWebcam){
+            cap->release();
+            isWebcam = false;
+            cout<< "fechou =" << cap->isOpened() << endl;
+        }
+    }
 }
 
 void VideoThread::videoLoop()
 {
-    if(!isWebcam)
-    {
-        cout << "testao" << endl;
-        ALValue img = camProxy->getImageRemote(clientName);
-
-        if(img.getSize() < 7)
+    if(isConnected){
+        if(!isWebcam)
         {
-            QString message;
-            message = "Fail to Get Frame.";
-            emit statusMessage(message);
-            return;
+            cout << "testao" << endl;
+            ALValue img = camProxy->getImageRemote(clientName);
+
+            if(img.getSize() < 7)
+            {
+                QString message;
+                message = "Fail to Get Frame.";
+                emit statusMessage(message);
+                return;
+            }
+
+            imgHeader.data = (uchar*) img[6].GetBinary();
+
+
+                QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
+
+                imgContainer.image = image.rgbSwapped();
+                imagePipe.save(imgContainer);
+
+                emit sendFrame();
+
+
+            camProxy->releaseImage(clientName);
+
+
         }
-
-        imgHeader.data = (uchar*) img[6].GetBinary();
-
+        else
+        {
+            (*cap) >> imgHeader;
+            if (quit_signal) exit(0); // exit cleanly on interrupt
 
             QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
 
@@ -171,26 +204,12 @@ void VideoThread::videoLoop()
 
             emit sendFrame();
 
-
-        camProxy->releaseImage(clientName);
-
+        }
 
     }
     else
     {
-        (*cap) >> imgHeader;
-        if (quit_signal) exit(0); // exit cleanly on interrupt
-
-
-            QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
-
-            imgContainer.image = image.rgbSwapped();
-            imagePipe.save(imgContainer);
-
-            emit sendFrame();
-
-
-
+        //cout<<"vai ficar escuro logo"<<endl;
         emit sendFrame();
     }
 }

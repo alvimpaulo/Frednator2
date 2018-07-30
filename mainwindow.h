@@ -52,13 +52,13 @@ public:
     ~MainWindow();
 
 public slots:
-    void displayImage();
+    void displayImage(); //Display the video on the screen when it's connected and a dark screen when disconnected
     void threadFinishedslot();
     void updateStatusMessage(QString message);
+    void checkConnection(bool connection); //Receives a signal when the connection is stablished and changes the connectButton text
 
 private slots:
-    void on_connectButton_clicked();
-
+    void on_connectButton_clicked(); //Calls the connectVideo slot
     void on_StartRecordingButton_clicked();
 
     void on_changeCameraButton_clicked();
@@ -67,7 +67,7 @@ private slots:
 
 
 signals:
-    void connectCamera(QString naoIP);
+    void connectCamera(bool connection, QString naoIP);
     void changeCamera(int cameraID);
     void finishThread();
     void record(QString fileName);
@@ -79,6 +79,7 @@ private:
     void closeEvent(QCloseEvent *);
     bool threadFinished;
     bool isRecording;
+    bool isConnected;
     int camera;
     unBoard<frednatorData> imagePipe;
     frednatorData imgContainer;

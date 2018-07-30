@@ -18,7 +18,10 @@ Controller::Controller(int argc, char *argv[])
     timer->setInterval( ceil(1000.0 / frame_rate) );
 
     //Connect the button on the GUI to start the video stream
-    connect(&w, SIGNAL(connectCamera(QString)), videoThread, SLOT(playVideo(QString)));
+    connect(&w, SIGNAL(connectCamera(bool,QString)), videoThread, SLOT(connectVideo(bool,QString)));
+
+    connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
+
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));
     //Start the timer that will control the FPS

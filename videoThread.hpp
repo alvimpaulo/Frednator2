@@ -24,10 +24,11 @@ signals:
     void sendFrame();
     void terminateThread();
     void statusMessage(QString message);
+    void connection(bool connected);
 
 public slots:
 
-    void playVideo(const QString &naoIP);
+    void connectVideo(bool connect, const QString &naoIP);
     void videoLoop();
     void savePicture();
 
