@@ -13,6 +13,8 @@
 
 #include <QThread>
 #include <QImage>
+#include <QString>
+#include <yellowDetector.hpp>
 
 class VideoThread : public QObject
 {
@@ -31,6 +33,7 @@ public slots:
     void connectVideo(bool connect, const QString &naoIP);
     void videoLoop();
     void savePicture();
+    void functionChanged(QString);
 
 
 private:
@@ -42,6 +45,7 @@ private:
     bool savePictureLockFlag;
     bool firstScreenshot;
     bool isWebcam;
+    QString functionSelected;
 
     int screenshotCounter;
     AL::ALVideoDeviceProxy *camProxy;
@@ -65,6 +69,8 @@ public:
     void stopThread();
     void startRecording(QString fileName);
     void stopRecording();
+    YellowDetector yellowDetector;
+    PerceptionData visionData;
 };
 
 #endif //_VIDEO_THREAD_HPP_

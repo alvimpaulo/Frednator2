@@ -22,6 +22,10 @@ Controller::Controller(int argc, char *argv[])
 
     connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
 
+    connect(&w, SIGNAL(lineDetectorSelected(QString)),videoThread, SLOT(functionChanged(QString)));
+    connect(&w, SIGNAL(NoneSelected(QString)),videoThread, SLOT(functionChanged(QString)));
+    connect(&w, SIGNAL(yellowDetectorSelected(QString)),videoThread, SLOT(functionChanged(QString)));
+
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));
     //Start the timer that will control the FPS

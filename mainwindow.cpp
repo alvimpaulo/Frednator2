@@ -131,7 +131,14 @@ void MainWindow::on_pushButton_clicked()
     QCoreApplication::processEvents();
 }
 
-
+void MainWindow::on_FunctionSelected_activated(QString functionSelected){
+  if(functionSelected == "Nenhuma")
+      emit NoneSelected("Nenhuma");
+  else if(functionSelected == "lineDetector")
+      emit lineDetectorSelected("lineDetector");
+  else if(functionSelected == "yellowDetector")
+        emit yellowDetectorSelected("yellowDetector");
+}
 
 void MainWindow::checkConnection(bool connection)
 {

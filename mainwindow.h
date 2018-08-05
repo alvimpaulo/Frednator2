@@ -60,11 +60,9 @@ public slots:
 private slots:
     void on_connectButton_clicked(); //Calls the connectVideo slot
     void on_StartRecordingButton_clicked();
-
     void on_changeCameraButton_clicked();
-
     void on_pushButton_clicked();
-
+    void on_FunctionSelected_activated(QString functionName); //selects the function to be used on camera
 
 signals:
     void connectCamera(bool connection, QString naoIP);
@@ -73,6 +71,9 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
+    void lineDetectorSelected(QString);
+    void yellowDetectorSelected(QString);
+    void NoneSelected(QString);
 
 private:
     Ui::MainWindow *ui;
