@@ -32,9 +32,6 @@
 #include <QDateTime>
 #include <QString>
 
-//Perception Includes
-#include<yellowDetector.hpp>
-
 volatile int quit_signal=0;
 #ifdef __unix__
 #include <signal.h>
@@ -67,9 +64,77 @@ QString randString(int len)
     return str;
 }
 
+void VideoThread::perception2Frednator(QString functionName){
+    (*cap) >> imgHeader;
+    cv::Mat cvMatImg;
+
+    if(functionName == "Nenhuma"){
+        emit sendFrame();
+        return;
+    }
+    else{
+        if(functionName == "ballCandidate"){
+            emit sendFrame();
+            return;
+          }
+
+        if(functionName == "ballDetector"){
+            emit sendFrame();
+            return;
+        }
+
+        if(functionName == "ellipseDetector"){
+            cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);
+        }
+
+        if(functionName == "fieldDetector"){
+            cvMatImg = fieldDetector.run(imgHeader, imgHeader, &visionData);
+        }
+
+        if(functionName == "goalDetector"){
+            cvMatImg = goalDetector.run(imgHeader, imgHeader, &visionData);
+        }
+
+        if(functionName == "lineDetector"){
+            cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData);
+        }
+
+        if(functionName == "yellowDetector"){
+            cvMatImg = yellowDetector.run(imgHeader, imgHeader, &visionData);
+        }
+
+        int w = imgHeader.cols;
+        int h = imgHeader.rows;
+        QImage qImg(w, h, QImage::Format_RGB32);
+        QRgb pixel;
+
+        for(int i=0;i<w;i++)
+        {
+            for(int j=0;j<h;j++)
+            {
+                int gray = (int)cvMatImg.at<unsigned char>(j, i);
+                pixel = qRgb(gray,gray,gray);
+                qImg.setPixel(i,j,pixel);
+            }
+        }
+
+        imgContainer.image = qImg;
+        imagePipe.save(imgContainer);
+        emit sendFrame();
+    }
+
+
+}
+
 //Class Implementation
 
-VideoThread::VideoThread() : isConnected(false), isRecording(false), savePictureLockFlag(false), screenshotCounter(0), firstScreenshot(true), isWebcam(false)//, isHSV(false)
+VideoThread::VideoThread() : isConnected(false),
+    isRecording(false),
+    savePictureLockFlag(false),
+    screenshotCounter(0),
+    firstScreenshot(true),
+    isWebcam(false),
+    functionSelected("Nenhuma")
 {
 #ifdef __unix__
    signal(SIGINT,quit_signal_handler); // listen for ctrl-C
@@ -210,35 +275,8 @@ void VideoThread::videoLoop()
 
         }
 
-        if(functionSelected == "Nenhuma" || functionSelected == "lineDetector"){
-            emit sendFrame();
-        }
+        perception2Frednator(functionSelected);
 
-        if(functionSelected == "yellowDetector"){
-            (*cap) >> imgHeader;
-            cv::Mat cvMatYDImg;
-            cvMatYDImg = yellowDetector.run(imgHeader, imgHeader, &visionData);
-
-            int w = imgHeader.cols;
-            int h = imgHeader.rows;
-            QImage qYdImg(w, h, QImage::Format_RGB32);
-            QRgb pixel;
-
-
-            for(int i=0;i<w;i++)
-            {
-                for(int j=0;j<h;j++)
-                {
-                    int gray = (int)cvMatYDImg.at<unsigned char>(j, i);
-                    pixel = qRgb(gray,gray,gray);
-                    qYdImg.setPixel(i,j,pixel);
-                }
-            }
-
-            imgContainer.image = qYdImg;
-            imagePipe.save(imgContainer);
-            emit sendFrame();
-        }
 
     }
     else

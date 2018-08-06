@@ -71,9 +71,7 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
-    void lineDetectorSelected(QString);
-    void yellowDetectorSelected(QString);
-    void NoneSelected(QString);
+    void newFunctionSelected(QString);
 
 private:
     Ui::MainWindow *ui;

@@ -189,6 +189,7 @@ cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
 
     updateData(data);
 
+    return botImg;
 }
 
 void BallDetector::updateData(PerceptionData *data)

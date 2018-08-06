@@ -22,9 +22,7 @@ Controller::Controller(int argc, char *argv[])
 
     connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
 
-    connect(&w, SIGNAL(lineDetectorSelected(QString)),videoThread, SLOT(functionChanged(QString)));
-    connect(&w, SIGNAL(NoneSelected(QString)),videoThread, SLOT(functionChanged(QString)));
-    connect(&w, SIGNAL(yellowDetectorSelected(QString)),videoThread, SLOT(functionChanged(QString)));
+    connect(&w, SIGNAL(newFunctionSelected(QString)),this, SLOT(functionChanged(QString)));
 
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));
@@ -98,4 +96,8 @@ void Controller::startRecording(QString fileName)
 void Controller::stopRecording()
 {
     videoThread->stopRecording();
+}
+
+void Controller::functionChanged(QString newFunction){
+    videoThread->functionChanged(newFunction);
 }

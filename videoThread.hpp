@@ -14,7 +14,14 @@
 #include <QThread>
 #include <QImage>
 #include <QString>
+
 #include <yellowDetector.hpp>
+#include <ballDetector.hpp>
+#include <fieldDetector.hpp>
+#include <ellipseDetector.hpp>
+#include <lineDetector.hpp>
+#include <goalDetector.hpp>
+
 
 class VideoThread : public QObject
 {
@@ -33,7 +40,7 @@ public slots:
     void connectVideo(bool connect, const QString &naoIP);
     void videoLoop();
     void savePicture();
-    void functionChanged(QString);
+    //void functionChanged(QString);
 
 
 private:
@@ -69,8 +76,19 @@ public:
     void stopThread();
     void startRecording(QString fileName);
     void stopRecording();
+    void functionChanged(QString functionToChange);
+    void perception2Frednator(QString functionName);
+
+    BallDetector ballDetector;
+    EllipseDetector ellipseDetector;
+    FieldDetector fieldDetector;
+    GoalDetector goalDetector;
+    LineDetector lineDetector;
     YellowDetector yellowDetector;
+
     PerceptionData visionData;
+
+
 };
 
 #endif //_VIDEO_THREAD_HPP_

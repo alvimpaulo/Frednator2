@@ -89,14 +89,15 @@ cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *da
 	}
     std::cout << "lines4" << std::endl;
 
-#ifdef DEBUG_PERCEPTION
-	cv::imwrite("green_lines.jpg", greenFrame);
-	cv::imwrite("detected lines.jpg", edges);
-    std::cout << "Rodou lines!!!!" << std::endl;
-#endif
-
 	updateData(data);
-}
+
+    #ifdef DEBUG_PERCEPTION
+        cv::imwrite("green_lines.jpg", greenFrame);
+        cv::imwrite("detected lines.jpg", edges);
+        std::cout << "Rodou lines!!!!" << std::endl;
+        return edges;
+    #endif
+    }
 
 void LineDetector::updateData(PerceptionData *data)
 {

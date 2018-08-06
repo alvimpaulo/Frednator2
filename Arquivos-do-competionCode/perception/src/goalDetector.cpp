@@ -64,17 +64,17 @@ cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
         gol_x = -1;
     }
 
-
-#ifdef DEBUG_PERCEPTION
-    cv::circle(goal,cv::Point(gol_x,this->greenVerticalAvg),4,cv::Scalar(255,0,0),2);
-    cv::imwrite("gol.jpg",goal);
-    cv::imwrite("gol_gradiente.jpg",grad);
-    //std::cout << "gol_x = " << std::dec << gol_x << " " << this->greenVerticalAvg << std::endl;
-#endif
-
     this->bestGoal.imgPosX = gol_x;
 
     updateData(data);
+
+    #ifdef DEBUG_PERCEPTION
+        cv::circle(goal,cv::Point(gol_x,this->greenVerticalAvg),4,cv::Scalar(255,0,0),2);
+        cv::imwrite("gol.jpg",goal);
+        cv::imwrite("gol_gradiente.jpg",grad);
+        return goal;
+        //std::cout << "gol_x = " << std::dec << gol_x << " " << this->greenVerticalAvg << std::endl;
+    #endif
 }
 
 void GoalDetector::updateData(PerceptionData *data)

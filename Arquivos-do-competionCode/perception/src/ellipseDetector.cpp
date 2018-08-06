@@ -162,17 +162,17 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
       this->media_angle = this->media_angle/box_vector.size();
     }
 
-
-    #ifdef DEBUG_PERCEPTION
-      std::cout << "x:" << this->media.x << "\n";
-      std::cout << "y:" << this->media.y << "\n";
-      std::cout << "a:" << this->media_angle << "\n";
-
-      cv::circle(src,media,4,cv::Scalar(255,0,0),2);
-      cv::imwrite("ellipse.jpg",src);
-    #endif
-
     updateData(data);
+
+#ifdef DEBUG_PERCEPTION
+  std::cout << "x:" << this->media.x << "\n";
+  std::cout << "y:" << this->media.y << "\n";
+  std::cout << "a:" << this->media_angle << "\n";
+
+  cv::circle(src,media,4,cv::Scalar(255,0,0),2);
+  cv::imwrite("ellipse.jpg",src);
+  return src;
+#endif
 
 }
 

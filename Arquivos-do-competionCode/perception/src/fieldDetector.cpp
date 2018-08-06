@@ -152,6 +152,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);
+    return roi_field;
     //imwrite("roi goal.jpg",roi_goal);
 #endif
 

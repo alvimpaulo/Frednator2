@@ -132,12 +132,7 @@ void MainWindow::on_pushButton_clicked()
 }
 
 void MainWindow::on_FunctionSelected_activated(QString functionSelected){
-  if(functionSelected == "Nenhuma")
-      emit NoneSelected("Nenhuma");
-  else if(functionSelected == "lineDetector")
-      emit lineDetectorSelected("lineDetector");
-  else if(functionSelected == "yellowDetector")
-        emit yellowDetectorSelected("yellowDetector");
+  emit newFunctionSelected(functionSelected);
 }
 
 void MainWindow::checkConnection(bool connection)

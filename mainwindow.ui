@@ -166,12 +166,32 @@
      </item>
      <item>
       <property name="text">
-       <string>lineDetector</string>
+       <string>ballDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>fieldDetector</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>yellowDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ellipseDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>goalDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>lineDetector</string>
       </property>
      </item>
     </widget>
