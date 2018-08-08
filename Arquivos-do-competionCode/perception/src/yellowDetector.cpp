@@ -78,14 +78,16 @@ cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *dat
 
         n_bound++;
     }
-    if(n_bound)
-            this->distance=this->distance/n_bound;
+    if(n_bound){
+        this->distance=this->distance/n_bound;
+    }
 
     #ifdef DEBUG_PERCEPTION
         //std::cout << "teste "<<"distance: " << this->distance <<std::endl ;
         cv::imwrite("Contornos.jpg", drawing);
-        return drawing;
-    #endif    
+    #endif
+
+    return drawing;
 
     //updateData(data);
 }

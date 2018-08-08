@@ -67,6 +67,7 @@ QString randString(int len)
 void VideoThread::perception2Frednator(QString functionName){
     (*cap) >> imgHeader;
     cv::Mat cvMatImg;
+    cv::Mat dstcvMatImg;
 
     if(functionName == "Nenhuma"){
         emit sendFrame();
@@ -79,8 +80,7 @@ void VideoThread::perception2Frednator(QString functionName){
           }
 
         if(functionName == "ballDetector"){
-            emit sendFrame();
-            return;
+            cvMatImg = ballDetector.run(imgHeader, imgHeader, &visionData);
         }
 
         if(functionName == "ellipseDetector"){
@@ -105,10 +105,14 @@ void VideoThread::perception2Frednator(QString functionName){
 
         int w = imgHeader.cols;
         int h = imgHeader.rows;
-        QImage qImg(w, h, QImage::Format_RGB32);
+        QImage qImg((uchar*)cvMatImg.data, cvMatImg.cols, cvMatImg.rows, cvMatImg.step, QImage::Format_RGB888);
         QRgb pixel;
 
-        for(int i=0;i<w;i++)
+        //dstcvMatImg.size() = imgHeader.size();
+        //resize(cvMatImg, cvMatImg, imgHeader.size(), 0, 0, INTER_AREA);
+
+
+        /*for(int i=0;i<w;i++)
         {
             for(int j=0;j<h;j++)
             {
@@ -116,9 +120,9 @@ void VideoThread::perception2Frednator(QString functionName){
                 pixel = qRgb(gray,gray,gray);
                 qImg.setPixel(i,j,pixel);
             }
-        }
+        }*/
 
-        imgContainer.image = qImg;
+        imgContainer.image = qImg.rgbSwapped();;
         imagePipe.save(imgContainer);
         emit sendFrame();
     }
@@ -249,10 +253,10 @@ void VideoThread::videoLoop()
             imgHeader.data = (uchar*) img[6].GetBinary();
 
 
-                QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
+            QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
 
-                imgContainer.image = image.rgbSwapped();
-                imagePipe.save(imgContainer);
+            imgContainer.image = image.rgbSwapped();
+            imagePipe.save(imgContainer);
 
 //                emit sendFrame();
 
@@ -281,7 +285,6 @@ void VideoThread::videoLoop()
     }
     else
     {
-        //cout<<"vai ficar escuro logo"<<endl;
         emit sendFrame();
     }
 }

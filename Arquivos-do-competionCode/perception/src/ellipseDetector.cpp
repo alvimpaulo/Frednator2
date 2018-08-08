@@ -2,11 +2,13 @@
 
 cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData *data)
 {
+
     cv::Mat src  =  topImg.clone();
     #ifdef DEBUG_PERCEPTION
       std::cout << "teste 0" << "\n";
     #endif
     
+
     //GREEN SEGMENTATION
     /*cv::Mat greenFrame;
     cv::cvtColor(src, greenFrame, CV_BGR2HSV);
@@ -70,6 +72,7 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
       }
     }
     */
+
     cv::Mat canny_output;
     cv::Canny(greenFrame,canny_output,50,120);
     //alternativa ao canny: threshold
@@ -98,7 +101,6 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     //cv::findContours(canny_output, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_NONE, cv::Point(0, 0)); 
     //cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE, cv::Point(0, 0)); 
 
-
     #ifdef DEBUG_PERCEPTION
       std::cout << "teste 2" << "\n";
       cv::imwrite("contours.jpg",canny_output);
@@ -106,6 +108,7 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     #endif
 
     cv::Mat cimage = cv::Mat::zeros(canny_output.size(), CV_8UC3);
+
 
     for(size_t i = 0; i < contours.size(); i++)
     {
@@ -117,7 +120,6 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
         cv::Mat(contours[i]).convertTo(pointsf, CV_32F);
         cv::RotatedRect box = cv::fitEllipse(pointsf);
       
-
         if  ( MAX(box.size.width, box.size.height) > MIN(box.size.width, box.size.height)*30 )
             continue;
 
@@ -126,6 +128,7 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
             continue;
         if (box.center.y < (0.3687*box.size.height + 121.2 - 20))
             continue;
+
 
         //Exclui candidatos pequenos.
         if ((box.size.height) < 100) //Menor largura que assume : 110px
