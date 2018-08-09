@@ -10,7 +10,6 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     
 
     //GREEN SEGMENTATION
-    /*cv::Mat greenFrame;
     cv::cvtColor(src, greenFrame, CV_BGR2HSV);
     cv::blur(greenFrame, greenFrame, cv::Size(2,2));
     cv::inRange(greenFrame, cv::Scalar(35, 80, 0), cv::Scalar(85, 210, 210), greenFrame);
@@ -36,11 +35,15 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     }
     
     for (int j = 0; j < greenFrame.rows; j++)
+    {
         if (greenFrame.at<uchar>(j, greenFrame.cols - 1) != 0) {
           fieldPixels.push_back(cv::Point(greenFrame.cols - 1, j));
           fieldAverage += j;
           j = greenFrame.rows;
         }
+    }
+
+
 
     fieldAverage = fieldAverage/checkPoints;
 
@@ -54,10 +57,13 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
       fieldDistance = (float)fieldDistance/(float)fieldBestPixels.size();
     }
 
+
+
     cv::Mat roi_field(greenFrame.rows, greenFrame.cols, CV_8UC1);
     roi_field = cv::Scalar(0);
 
-    if (fieldBestPixels.size() > 1) {
+    if (fieldBestPixels.size() > 1)
+    {
       for (int i = 0; i < fieldBestPixels.size() - 1; i++)
       {
         int a = (fieldBestPixels[i+1].y-fieldBestPixels[i].y)/(fieldBestPixels[i+1].x-fieldBestPixels[i].x);
@@ -71,10 +77,11 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
         }
       }
     }
-    */
+
 
     cv::Mat canny_output;
-    cv::Canny(greenFrame,canny_output,50,120);
+    cv::Canny(greenFrame, canny_output, 50, 120);
+
     //alternativa ao canny: threshold
     //cv::threshold(greenFrame, canny_output, 1, 255, CV_THRESH_BINARY);
     //cv::bitwise_and(canny_output,roi_field,canny_output);
@@ -85,21 +92,21 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     
     cv::erode(canny_output, canny_output, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3, 3)) );
 
+
     //FIND ELLIPSES
-    cv::vector<cv::vector<Point> > contours;
+    std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::RotatedRect> box_vector;
   
 
     std::vector<cv::Vec4i> hierarchy;
     //get masses contours
 
-    #ifdef DEBUG_PERCEPTION
-    
-    #endif
+
     cv::findContours(canny_output, contours, hierarchy, CV_RETR_LIST, CV_CHAIN_APPROX_NONE, cv::Point(0, 0));
 
     //cv::findContours(canny_output, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_NONE, cv::Point(0, 0)); 
     //cv::findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE, cv::Point(0, 0)); 
+
 
     #ifdef DEBUG_PERCEPTION
       std::cout << "teste 2" << "\n";
@@ -174,8 +181,9 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
 
   cv::circle(src,media,4,cv::Scalar(255,0,0),2);
   cv::imwrite("ellipse.jpg",src);
-  return src;
 #endif
+
+    return src;
 
 }
 

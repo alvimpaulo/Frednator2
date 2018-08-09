@@ -150,9 +150,13 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
         updateData(data);
     }
 
+    cv::Mat roi_field_BRG;
+
+    cv::cvtColor(roi_field, roi_field_BRG, CV_GRAY2BGR);
+
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);
-    return roi_field;
+    return roi_field_BRG;
     //imwrite("roi goal.jpg",roi_goal);
 #endif
 

@@ -83,22 +83,27 @@ void VideoThread::perception2Frednator(QString functionName){
             cvMatImg = ballDetector.run(imgHeader, imgHeader, &visionData);
         }
 
+        //Funciona
         if(functionName == "ellipseDetector"){
             cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);
         }
 
+        //Funciona
         if(functionName == "fieldDetector"){
             cvMatImg = fieldDetector.run(imgHeader, imgHeader, &visionData);
         }
 
+        //Funciona
         if(functionName == "goalDetector"){
             cvMatImg = goalDetector.run(imgHeader, imgHeader, &visionData);
         }
 
+        //Funciona
         if(functionName == "lineDetector"){
             cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData);
         }
 
+        //Funciona
         if(functionName == "yellowDetector"){
             cvMatImg = yellowDetector.run(imgHeader, imgHeader, &visionData);
         }
