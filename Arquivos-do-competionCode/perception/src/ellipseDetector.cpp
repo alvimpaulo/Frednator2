@@ -181,7 +181,10 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
 
   cv::circle(src,media,4,cv::Scalar(255,0,0),2);
   cv::imwrite("ellipse.jpg",src);
+  cv::Mat output;
+  cv::cvtColor(greenFrame, output, CV_GRAY2BGR);
 #endif
+
 
     return src;
 
