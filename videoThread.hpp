@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QImage>
 #include <QString>
+#include <QComboBox>
 
 #include <yellowDetector.hpp>
 #include <ballDetector.hpp>
@@ -53,6 +54,9 @@ private:
     bool firstScreenshot;
     bool isWebcam;
     QString functionSelected;
+    QString lastFunctionSelected;
+    QComboBox* vectorSelection;
+    bool flagVectorSelectionChanged;
 
     int screenshotCounter;
     AL::ALVideoDeviceProxy *camProxy;
@@ -76,8 +80,8 @@ public:
     void stopThread();
     void startRecording(QString fileName);
     void stopRecording();
-    void functionChanged(QString functionToChange);
-    void perception2Frednator(QString functionName);
+    void functionChanged(QString functionToChange, QComboBox* vectorSelection);
+    void perception2Frednator(QString functionName, QComboBox* vectorSelection);
 
     BallDetector ballDetector;
     EllipseDetector ellipseDetector;

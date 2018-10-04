@@ -6,6 +6,10 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
     cv::Mat src  =  topImg.clone();
     #ifdef DEBUG_PERCEPTION
       std::cout << "teste 0" << "\n";
+
+    //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
+            std::vector<cv::Mat> debugImgVector;
+            debugImgVector.assign(1, src);
     #endif
     
 
@@ -110,6 +114,7 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
 
     #ifdef DEBUG_PERCEPTION
       std::cout << "teste 2" << "\n";
+      debugImgVector.push_back(canny_output);
       cv::imwrite("contours.jpg",canny_output);
       std::cout << "teste 3" << "\n";
     #endif
@@ -151,6 +156,7 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
           box.points(vtx);
           for( int j = 0; j < 4; j++ )
             cv::line(cimage, vtx[j], vtx[(j+1)%4], cv::Scalar(0,255,0), 1, CV_AA);
+          debugImgVector.push_back(cimage);
         #endif
     }
 
@@ -180,7 +186,14 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
   std::cout << "a:" << this->media_angle << "\n";
 
   cv::circle(src,media,4,cv::Scalar(255,0,0),2);
+  debugImgVector.push_back(src);
   cv::imwrite("ellipse.jpg",src);
+
+  std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
+  debugInsertion = data->debugImages.insert(std::make_pair("ellipseDetector", debugImgVector));
+  if(!debugInsertion.second){
+      data->debugImages["ellipseDetector"] = debugImgVector;
+  }
 #endif
 
     return src;

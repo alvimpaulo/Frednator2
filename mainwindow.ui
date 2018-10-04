@@ -264,6 +264,16 @@
       </item>
      </layout>
     </widget>
+    <widget class="QComboBox" name="debugImageVectorSelector">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>130</y>
+       <width>85</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="unbeatablesLogo">
     <property name="geometry">
@@ -299,6 +309,14 @@
      <string>Frednator</string>
     </property>
    </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>image_frame</zorder>
+   <zorder>commandsLabel</zorder>
+   <zorder>commandArea</zorder>
+   <zorder>unbeatablesLogo</zorder>
+   <zorder>simulatorName</zorder>
+   <zorder>verticalLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

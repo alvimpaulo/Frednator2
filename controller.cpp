@@ -22,7 +22,7 @@ Controller::Controller(int argc, char *argv[])
 
     connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
 
-    connect(&w, SIGNAL(newFunctionSelected(QString)),this, SLOT(functionChanged(QString)));
+    connect(&w, SIGNAL(newFunctionSelected(QString, QComboBox*)),this, SLOT(functionChanged(QString, QComboBox*)));
 
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));
@@ -98,6 +98,6 @@ void Controller::stopRecording()
     videoThread->stopRecording();
 }
 
-void Controller::functionChanged(QString newFunction){
-    videoThread->functionChanged(newFunction);
+void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection){
+    videoThread->functionChanged(newFunction, vectorSelection);
 }

@@ -132,7 +132,7 @@ void MainWindow::on_pushButton_clicked()
 }
 
 void MainWindow::on_FunctionSelected_activated(QString functionSelected){
-  emit newFunctionSelected(functionSelected);
+  emit newFunctionSelected(functionSelected, ui->debugImageVectorSelector);
 }
 
 void MainWindow::checkConnection(bool connection)

@@ -37,6 +37,7 @@
 
 
 #include <QMainWindow>
+#include <QComboBox>
 
 namespace Ui {
 class MainWindow;
@@ -71,7 +72,7 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
-    void newFunctionSelected(QString);
+    void newFunctionSelected(QString, QComboBox*);
 
 private:
     Ui::MainWindow *ui;

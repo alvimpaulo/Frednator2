@@ -83,13 +83,20 @@ cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *dat
     }
 
     #ifdef DEBUG_PERCEPTION
-        //std::cout << "teste "<<"distance: " << this->distance <<std::endl ;
+    //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
+        std::vector<cv::Mat> debugImgVector;
+        debugImgVector.assign(1, drawing);
+        std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
+        debugInsertion = data->debugImages.insert(std::make_pair("yellowDetector", debugImgVector));
+        if(!debugInsertion.second){
+            data->debugImages["yellowDetector"] = debugImgVector;
+        }
         cv::imwrite("Contornos.jpg", drawing);
     #endif
 
     return drawing;
 
-    //updateData(data);
+    updateData(data);
 }
 
 void YellowDetector::updateData(PerceptionData *data)

@@ -92,6 +92,16 @@ cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *da
 	updateData(data);
 
     #ifdef DEBUG_PERCEPTION
+    //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
+        std::vector<cv::Mat> debugImgVector;
+        debugImgVector.assign(1, greenFrame);
+        debugImgVector.push_back(edges);
+        std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
+        debugInsertion = data->debugImages.insert(std::make_pair("lineDetector", debugImgVector));
+        if(!debugInsertion.second){
+            data->debugImages["lineDetector"] = debugImgVector;
+        }
+
         cv::imwrite("green_lines.jpg", greenFrame);
         cv::imwrite("detected lines.jpg", edges);
         return edges;

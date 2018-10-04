@@ -16,7 +16,7 @@
 #include <types/SensorValues.hpp>
 #include <RoboCupGameControlData.h>
 
-
+#define DEBUG_PERCEPTION 1
 
 
 /**
@@ -108,6 +108,11 @@ struct PerceptionData
     //cv::Point2f yellowCenter;
     int approxDistance;
     float approxAngle;
+
+#ifdef DEBUG_PERCEPTION
+    //Vector containing the debug images to be used with frednator
+    std::map<std::string, std::vector<cv::Mat> > debugImages;
+#endif
 
 
 };

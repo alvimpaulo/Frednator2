@@ -30,7 +30,7 @@
 
 #include <QMutex>
 #include <QDateTime>
-#include <QString>
+
 
 volatile int quit_signal=0;
 #ifdef __unix__
@@ -64,10 +64,11 @@ QString randString(int len)
     return str;
 }
 
-void VideoThread::perception2Frednator(QString functionName){
+void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSelection){
     (*cap) >> imgHeader;
     cv::Mat cvMatImg;
     cv::Mat dstcvMatImg;
+    int vectorSelectionCounter = 0 ; //contador para o comboBox de selecionar qual debugimg quer
 
     if(functionName == "Nenhuma"){
         emit sendFrame();
@@ -86,6 +87,21 @@ void VideoThread::perception2Frednator(QString functionName){
         //Funciona
         if(functionName == "ellipseDetector"){
             cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);
+
+            //preenche o comboBox
+            if(lastFunctionSelected != functionName){
+                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
+                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
+                    vectorSelectionCounter++;
+                }
+            }
+            //Imagem de interesse é a selecionada
+            if(!vectorSelection->currentText().isEmpty()){
+                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
+            } else{
+                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
+            }
+            lastFunctionSelected = functionName;
         }
 
         //Funciona
@@ -101,11 +117,41 @@ void VideoThread::perception2Frednator(QString functionName){
         //Funciona
         if(functionName == "lineDetector"){
             cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData);
+
+            //preenche o comboBox
+            if(lastFunctionSelected != functionName){
+                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
+                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
+                    vectorSelectionCounter++;
+                }
+            }
+            //Imagem de interesse é a selecionada
+            if(!vectorSelection->currentText().isEmpty()){
+                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
+            } else{
+                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
+            }
+            lastFunctionSelected = functionName;
         }
 
         //Funciona
-        if(functionName == "yellowDetector"){
-            cvMatImg = yellowDetector.run(imgHeader, imgHeader, &visionData);
+        if(functionName == "yellowDetector"){     
+            yellowDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+
+            //preenche o comboBox
+            if(lastFunctionSelected != functionName){
+                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
+                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
+                    vectorSelectionCounter++;
+                }
+            }
+            //Imagem de interesse é a selecionada
+            if(!vectorSelection->currentText().isEmpty()){
+                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
+            } else{
+                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
+            }
+            lastFunctionSelected = functionName;
         }
 
         int w = imgHeader.cols;
@@ -284,7 +330,7 @@ void VideoThread::videoLoop()
 
         }
 
-        perception2Frednator(functionSelected);
+        perception2Frednator(functionSelected, vectorSelection);
 
 
     }
@@ -459,6 +505,8 @@ void VideoThread::savePicture()
     }
 }
 
-void VideoThread::functionChanged(QString functionToChange){
+void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSelection){
     functionSelected = functionToChange;
+    this->vectorSelection = vectorSelection;
+    this->vectorSelection->clear();
 }
