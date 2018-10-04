@@ -36,7 +36,6 @@ void MainWindow::displayImage()
     if(isConnected){
         imgContainer = imagePipe.load();
         ui->image_frame->setPixmap(QPixmap::fromImage(imgContainer.image, Qt::AutoColor));
-
     }
     else
     {
@@ -79,7 +78,6 @@ void MainWindow::on_connectButton_clicked()
     }
 }
 
-
 void MainWindow::on_StartRecordingButton_clicked()
 {
     if(!isRecording)
@@ -101,16 +99,13 @@ void MainWindow::on_StartRecordingButton_clicked()
         isRecording = false;
     }
 
-
 }
-
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     cout << "Emiting close" << endl;
-    //emit finishThread();
+    emit finishThread();
 }
-
 
 void MainWindow::on_changeCameraButton_clicked()
 {
@@ -121,7 +116,6 @@ void MainWindow::on_changeCameraButton_clicked()
     emit changeCamera(camera);
     QCoreApplication::processEvents();
 }
-
 
 void MainWindow::on_pushButton_clicked()
 {

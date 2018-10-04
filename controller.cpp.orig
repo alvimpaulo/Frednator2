@@ -23,8 +23,12 @@ Controller::Controller(int argc, char *argv[])
     //Tells the mainwindow if the connection was successfull
     connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
 
-	//Connect the function selector
+<<<<<<< HEAD
     connect(&w, SIGNAL(newFunctionSelected(QString, QComboBox*)),this, SLOT(functionChanged(QString, QComboBox*)));
+=======
+    //Connect the function selector
+    connect(&w, SIGNAL(newFunctionSelected(QString)),this, SLOT(functionChanged(QString)));
+>>>>>>> dabf4703216dbe796a213079de90785d86beb851
 
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));

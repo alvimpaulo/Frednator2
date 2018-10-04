@@ -16,6 +16,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     cv::Mat roi(imgBot, cv::Rect(cv::Point(60,140),cv::Size(200,80)));
     cv::Mat g_TopChromacity(imgTop.rows,imgTop.cols,CV_8UC1), g_BotChromacity(roi.rows,roi.cols,CV_8UC1), hist, dilate_element, erode_element;
     cv::Vec3b color;
+
     //calculates green chromacity for both top and bottom images
     for (int i = 0; i < roi.rows; i++)
     {
@@ -40,6 +41,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
                 if(color[0]+color[1]+color[2] > 0)g_TopChromacity.at<uchar>(i,j) = (255*color[1]/(color[0]+color[1]+color[2]));
         }
     }
+
     //creates the histogram
     float range[] = {0, 256};
     const float* hrange = {range};
@@ -51,6 +53,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     {
         hist.at<int>(i,0) > max_g ? max_g = hist.at<int>(i,0), i_max_g = i : 0;
     }
+
     //std::cout << "i_max_g = " << i_max_g << std::endl;
     // defines both maximum and minimum g chroma desired
     min_g = (i_max_g * 256/(hsize));
@@ -153,6 +156,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     cv::Mat roi_field_BRG;
 
     cv::cvtColor(roi_field, roi_field_BRG, CV_GRAY2BGR);
+    //cv::cvtColor(g_TopChromacity, roi_field_BRG, CV_GRAY2BGR);
 
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);

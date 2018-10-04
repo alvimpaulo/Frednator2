@@ -188,15 +188,19 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
   cv::circle(src,media,4,cv::Scalar(255,0,0),2);
   debugImgVector.push_back(src);
   cv::imwrite("ellipse.jpg",src);
-  cv::Mat output;
-  cv::cvtColor(greenFrame, output, CV_GRAY2BGR);
+<<<<<<< HEAD
 
-std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
+  std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
   debugInsertion = data->debugImages.insert(std::make_pair("ellipseDetector", debugImgVector));
   if(!debugInsertion.second){
       data->debugImages["ellipseDetector"] = debugImgVector;
   }
+=======
+  cv::Mat output;
+  cv::cvtColor(greenFrame, output, CV_GRAY2BGR);
+>>>>>>> dabf4703216dbe796a213079de90785d86beb851
 #endif
+
 
     return src;
 
