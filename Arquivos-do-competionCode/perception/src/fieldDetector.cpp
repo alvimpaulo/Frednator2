@@ -16,7 +16,13 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     cv::Mat roi(imgBot, cv::Rect(cv::Point(60,140),cv::Size(200,80)));
     cv::Mat g_TopChromacity(imgTop.rows,imgTop.cols,CV_8UC1), g_BotChromacity(roi.rows,roi.cols,CV_8UC1), hist, dilate_element, erode_element;
     cv::Vec3b color;
+    #ifdef DEBUG_PERCEPTION
 
+        //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
+        std::vector<cv::Mat> debugImgVector;
+        debugImgVector.assign(1, imgTop);
+        debugImgVector.push_back(imgBot);
+    #endif
     //calculates green chromacity for both top and bottom images
     for (int i = 0; i < roi.rows; i++)
     {
@@ -72,6 +78,9 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
 #ifdef DEBUG_PERCEPTION
     //std::cout << "i_max_g: " << i_max_g * 256/(hsize) << std::endl;
+    cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_GRAY2BGR);
+    debugImgVector.push_back(g_TopChromacity); //teve que converter
+    cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_BGR2GRAY);
     //imwrite("top green chromacity.jpg",g_TopChromacity);
 #endif
 
@@ -148,6 +157,13 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
         }
         this->bestField.fieldImg = roi_field;
+
+        #ifdef DEBUG_PERCEPTION
+            cv::cvtColor( roi_field, roi_field, CV_GRAY2BGR);
+            debugImgVector.push_back(roi_field); //teve que converter
+            cv::cvtColor( roi_field, roi_field, CV_BGR2GRAY);
+        #endif
+
         this->greenRegion = g_TopChromacity;
 
         updateData(data);
@@ -160,6 +176,19 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);
+    debugImgVector.push_back(roi_field_BRG);
+
+    cv::cvtColor( roi_goal, roi_goal, CV_GRAY2BGR);
+    debugImgVector.push_back(roi_goal); //teve que converter
+    cv::cvtColor( roi_goal, roi_goal, CV_BGR2GRAY);
+
+    // atualize the perception data debugImages with debugImgVector.
+    std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
+    debugInsertion = data->debugImages.insert(std::make_pair("fieldDetector", debugImgVector));
+    if(!debugInsertion.second){
+        data->debugImages["fieldDetector"] = debugImgVector;
+    }
+
     return roi_field_BRG;
     //imwrite("roi goal.jpg",roi_goal);
 #endif

@@ -192,6 +192,7 @@ cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
             std::vector<cv::Mat> debugImgVector;
             debugImgVector.assign(1, botImg);
+            debugImgVector.push_back(topImg);
             std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
             debugInsertion = data->debugImages.insert(std::make_pair("ballDetector", debugImgVector));
             if(!debugInsertion.second){

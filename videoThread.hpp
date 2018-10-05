@@ -72,6 +72,8 @@ private:
     frednatorData imgContainer;
     cv::VideoCapture *cap;
 
+    void vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData , cv::Mat *cvMatImg);
+
 
 public:
     VideoThread();

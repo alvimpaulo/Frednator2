@@ -220,10 +220,28 @@ void VideoThread::videoLoop()
     }
 }
 
+//função para fazer a vectorSelectionInterface com o vectorSelectionInterface
+void VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData , cv::Mat *cvMatImg){
+    int vectorSelectionCounter = 0;
+    //preenche o comboBox
+    if(lastFunctionSelected != functionSelected){
+        while(vectorSelection->count() < visionData->debugImages[functionSelected.toStdString()].size()){
+            vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
+            vectorSelectionCounter++;
+        }
+    }
+    //Imagem de interesse é a selecionada
+    if(!vectorSelection->currentText().isEmpty()){
+        *cvMatImg = visionData->debugImages[functionSelected.toStdString()][vectorSelection->currentText().toInt()];
+    } else{
+        *cvMatImg = visionData->debugImages[functionSelected.toStdString()][0];
+    }
+    lastFunctionSelected = functionSelected;
+}
+
 void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSelection){
     (*cap) >> imgHeader;
     cv::Mat cvMatImg;
-    cv::Mat dstcvMatImg;
     int vectorSelectionCounter = 0 ; //contador para o comboBox de selecionar qual debugimg quer
 
     if(functionName == "Nenhuma"){
@@ -238,76 +256,45 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
         if(functionName == "ballDetector"){
             cvMatImg = ballDetector.run(imgHeader, imgHeader, &visionData);
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
         }
 
         //Funciona
         if(functionName == "ellipseDetector"){
-            cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);
+            cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
 
-            //preenche o comboBox
-            if(lastFunctionSelected != functionName){
-                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
-                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
-                    vectorSelectionCounter++;
-                }
-            }
-            //Imagem de interesse é a selecionada
-            if(!vectorSelection->currentText().isEmpty()){
-                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
-            } else{
-                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
-            }
-            lastFunctionSelected = functionName;
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
         }
+
 
         //Funciona
         if(functionName == "fieldDetector"){
-            cvMatImg = fieldDetector.run(imgHeader, imgHeader, &visionData);
+            cvMatImg = fieldDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
+
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
         }
 
         //Funciona
         if(functionName == "goalDetector"){
-            cvMatImg = goalDetector.run(imgHeader, imgHeader, &visionData);
+            cvMatImg = goalDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
         }
 
         //Funciona
         if(functionName == "lineDetector"){
-            cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData);
+            cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
 
-            //preenche o comboBox
-            if(lastFunctionSelected != functionName){
-                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
-                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
-                    vectorSelectionCounter++;
-                }
-            }
-            //Imagem de interesse é a selecionada
-            if(!vectorSelection->currentText().isEmpty()){
-                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
-            } else{
-                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
-            }
-            lastFunctionSelected = functionName;
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+
         }
 
         //Funciona
         if(functionName == "yellowDetector"){     
             yellowDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
 
-            //preenche o comboBox
-            if(lastFunctionSelected != functionName){
-                while(vectorSelection->count() < visionData.debugImages[functionName.toStdString()].size()){
-                    vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
-                    vectorSelectionCounter++;
-                }
-            }
-            //Imagem de interesse é a selecionada
-            if(!vectorSelection->currentText().isEmpty()){
-                cvMatImg = visionData.debugImages[functionName.toStdString()][vectorSelection->currentText().toInt()];
-            } else{
-                cvMatImg = visionData.debugImages[functionName.toStdString()][0];
-            }
-            lastFunctionSelected = functionName;
+            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+
         }
 
         int w = imgHeader.cols;
