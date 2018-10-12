@@ -221,79 +221,79 @@ void VideoThread::videoLoop()
 }
 
 //função para fazer a vectorSelectionInterface com o vectorSelectionInterface
-void VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData , cv::Mat *cvMatImg){
+cv::Mat VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData, QString *functionName){
     int vectorSelectionCounter = 0;
     //preenche o comboBox
-    if(lastFunctionSelected != functionSelected){
-        while(vectorSelection->count() < visionData->debugImages[functionSelected.toStdString()].size()){
+    if(lastFunctionName != functionName){
+        while(vectorSelection->count() < visionData->debugImages[functionName->toStdString()].size()){
             vectorSelection->insertItem(vectorSelectionCounter, QString::number(vectorSelectionCounter));
             vectorSelectionCounter++;
         }
     }
     //Imagem de interesse é a selecionada
     if(!vectorSelection->currentText().isEmpty()){
-        *cvMatImg = visionData->debugImages[functionSelected.toStdString()][vectorSelection->currentText().toInt()];
+        return visionData->debugImages[functionName->toStdString()][vectorSelection->currentText().toInt()];
+
     } else{
-        *cvMatImg = visionData->debugImages[functionSelected.toStdString()][0];
+        return visionData->debugImages[functionName->toStdString()][0];
     }
-    lastFunctionSelected = functionSelected;
+    lastFunctionName = *functionName;
 }
 
 void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSelection){
     (*cap) >> imgHeader;
     cv::Mat cvMatImg;
-    int vectorSelectionCounter = 0 ; //contador para o comboBox de selecionar qual debugimg quer
 
-    if(functionName == "Nenhuma"){
+    if(functionSelected == "Nenhuma"){
         emit sendFrame();
         return;
     }
-    else{
-        if(functionName == "ballCandidate"){
+    else if(functionName == functionSelected){
+        if(functionSelected == "ballCandidate"){
             emit sendFrame();
             return;
           }
 
-        if(functionName == "ballDetector"){
-            cvMatImg = ballDetector.run(imgHeader, imgHeader, &visionData);
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+        if(functionSelected == "ballDetector"){
+            ballDetector.run(imgHeader, imgHeader, &visionData);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
-        if(functionName == "ellipseDetector"){
-            cvMatImg = ellipseDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
+        if(functionSelected == "ellipseDetector"){
+            ellipseDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
 
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
 
         //Funciona
-        if(functionName == "fieldDetector"){
-            cvMatImg = fieldDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
+        if(functionSelected == "fieldDetector"){
+            fieldDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
 
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
-        if(functionName == "goalDetector"){
-            cvMatImg = goalDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+        if(functionSelected == "goalDetector"){
+            goalDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
 
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
-        if(functionName == "lineDetector"){
-            cvMatImg = lineDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+        if(functionSelected == "lineDetector"){
+            lineDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
 
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
         }
 
         //Funciona
-        if(functionName == "yellowDetector"){     
+        if(functionSelected == "yellowDetector"){
             yellowDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
 
-            this->vectorSelectionInterface(vectorSelection, &visionData, &cvMatImg);
+            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
         }
 

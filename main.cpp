@@ -5,6 +5,8 @@
 
 using namespace std;
 
+template class std::map<std::string, std::vector<cv::Mat> >;
+
 
 int main(int argc, char* argv[])
 {

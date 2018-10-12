@@ -54,7 +54,7 @@ private:
     bool firstScreenshot;
     bool isWebcam;
     QString functionSelected;
-    QString lastFunctionSelected;
+    QString lastFunctionName;
     QComboBox* vectorSelection;
     bool flagVectorSelectionChanged;
 
@@ -72,7 +72,7 @@ private:
     frednatorData imgContainer;
     cv::VideoCapture *cap;
 
-    void vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData , cv::Mat *cvMatImg);
+    cv::Mat vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData, QString *functionName);
 
 
 public:
