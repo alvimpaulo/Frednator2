@@ -53,9 +53,9 @@ private:
     bool savePictureLockFlag;
     bool firstScreenshot;
     bool isWebcam;
-    QString functionSelected;
-    QString lastFunctionName;
-    QComboBox* vectorSelection;
+    QString functionSelected; // Classe atualmente selecionada
+    QString lastFunctionName; // Ultima classe a ser selecionada
+    QComboBox* vectorSelection; //Seleciona qual imagem de debug se quer mostrar
     bool flagVectorSelectionChanged;
 
     int screenshotCounter;
@@ -65,6 +65,10 @@ private:
     //cv::VideoWriter *record;
     std::string clientName;
     cv::Mat imgHeader;
+
+    cv::Mat imgHead; //img da cabeça do robo
+    cv::Mat imgBody; //img do corpo do robo
+
     std::string strIP;
     std::string copyExec;
     std::string cameraID;
