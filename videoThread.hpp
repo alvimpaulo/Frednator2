@@ -64,7 +64,11 @@ private:
     cv::Mat imgSafe;
     //cv::VideoWriter *record;
     std::string clientName;
+
     cv::Mat imgHeader;
+    cv::Mat imgHead;
+    cv::Mat imgBody;
+
     std::string strIP;
     std::string copyExec;
     std::string cameraID;

@@ -144,7 +144,6 @@ void VideoThread::connectVideo(bool connect, const QString &naoIP)
             AL::ALValue cameraColorSpaces = std::vector<int>{kRGBColorSpace,kBGRColorSpace};
 
             clientName = camProxy->subscribeCameras(clientName, cameraIndexes, cameraResolution, cameraColorSpaces, 30);
-            camProxy->setActiveCameras(clientName, std::vector<int>{0,1});
 
             /**Change Camera */
             //cout << "Change Camera. " << clientName << endl;
