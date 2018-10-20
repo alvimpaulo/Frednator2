@@ -139,12 +139,18 @@ void VideoThread::connectVideo(bool connect, const QString &naoIP)
 
             clientName = rndStr.toUtf8().constData();
 
-            AL::ALValue cameraIndexes = std::vector<int>{0,1};
-            AL::ALValue cameraResolution = std::vector<int>{kVGA, kVGA};
-            AL::ALValue cameraColorSpaces = std::vector<int>{kRGBColorSpace,kBGRColorSpace};
+            AL::ALValue cameraIndexes, cameraResolution ,cameraColorSpaces;
+            cameraIndexes.arraySetSize(2);
+            cameraResolution.arraySetSize(2);
+            cameraColorSpaces.arraySetSize(2);
+            cameraIndexes[0] = kTopCamera;
+            cameraIndexes[1] = kBottomCamera;
+            cameraResolution[0] = AL::kQVGA;
+            cameraResolution[1] = AL::kQVGA;
+            cameraColorSpaces[0] = AL::kBGRColorSpace;
+            cameraColorSpaces[1] = AL::kBGRColorSpace;
 
             clientName = camProxy->subscribeCameras(clientName, cameraIndexes, cameraResolution, cameraColorSpaces, 30);
-            camProxy->setActiveCameras(clientName, std::vector<int>{0,1});
 
             /**Change Camera */
             //cout << "Change Camera. " << clientName << endl;
@@ -182,10 +188,6 @@ void VideoThread::videoLoop()
         {
             std::cout << camProxy->getActiveCameras(clientName) << std::endl;
             ALValue imgAlValues = camProxy->getImagesRemote(clientName);
-            camProxy->releaseImages(clientName);
-            std::cout << imgAlValues.getSize() << std::endl;
-            std::cout << imgAlValues[0].getSize() << std::endl;
-            std::cout << imgAlValues[1].getSize() << std::endl;
 
             if(imgAlValues[0].getSize() < 7 || imgAlValues[1].getSize() < 7)
             {
@@ -196,18 +198,24 @@ void VideoThread::videoLoop()
             }
 
             //Captar as duas img para imgHead e imgBody
-            imgHead.data = (uchar*) imgAlValues[0][6].GetBinary();
-            imgBody.data = (uchar*) imgAlValues[1][6].GetBinary();
+            cv::Mat inputTop, inputBot;
+            inputTop = cv::Mat(cv::Size(320,240),CV_8UC3);
+            inputTop.data = (uchar*) imgAlValues[0][6].GetBinary();
+            inputBot = cv::Mat(cv::Size(320,240),CV_8UC3);
+            inputBot.data = (uchar*) imgAlValues[1][6].GetBinary();
+            inputBot.copyTo(imgBody);
+            inputTop.copyTo(imgHead);
 
-            imgHeader.data = (uchar*) imgAlValues[0][6].GetBinary();
+            //imgHeader.data = (uchar*) imgAlValues[0][6].GetBinary();
 
-            QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
+            QImage image((uchar*)inputTop.data, inputTop.cols, inputTop.rows, inputTop.step, QImage::Format_RGB888);
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
 
             perception2Frednator(functionSelected, vectorSelection);
 
+            camProxy->releaseImages(clientName);
 
 
 
@@ -260,7 +268,8 @@ cv::Mat VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, Percep
 }
 
 void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSelection){
-    cv::Mat cvMatImg;
+    cv::Mat returnImg, srcImg;
+
 
     if(functionSelected == "Nenhuma"){
         emit sendFrame();
@@ -273,62 +282,62 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
           }
 
         if(functionSelected == "ballDetector"){
-            ballDetector.run(imgHeader, imgHeader, &visionData);
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            ballDetector.run(imgHead, imgHead, &visionData);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "ellipseDetector"){
-            ellipseDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
+            ellipseDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
 
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
 
         //Funciona
         if(functionSelected == "fieldDetector"){
-            fieldDetector.run(imgHeader, imgHeader, &visionData);//roda a classe e atualiza a visionData
+            fieldDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
 
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "goalDetector"){
-            goalDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+            goalDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
 
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "lineDetector"){
-            lineDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+            lineDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
 
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
         }
 
         //Funciona
         if(functionSelected == "yellowDetector"){
-            yellowDetector.run(imgHeader, imgHeader, &visionData); //roda a classe e atualiza a visionData
+            yellowDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
 
-            cvMatImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
         }
 
-        int w = imgHeader.cols;
-        int h = imgHeader.rows;
-        QImage qImg((uchar*)cvMatImg.data, cvMatImg.cols, cvMatImg.rows, cvMatImg.step, QImage::Format_RGB888);
+        int w = imgHead.cols;
+        int h = imgHead.rows;
+        QImage qImg((uchar*)returnImg.data, returnImg.cols, returnImg.rows, returnImg.step, QImage::Format_RGB888);
         QRgb pixel;
 
-        //dstcvMatImg.size() = imgHeader.size();
-        //resize(cvMatImg, cvMatImg, imgHeader.size(), 0, 0, INTER_AREA);
+        //dstreturnImg.size() = imgHead.size();
+        //resize(returnImg, returnImg, imgHead.size(), 0, 0, INTER_AREA);
 
 
         /*for(int i=0;i<w;i++)
         {
             for(int j=0;j<h;j++)
             {
-                int gray = (int)cvMatImg.at<unsigned char>(j, i);
+                int gray = (int)returnImg.at<unsigned char>(j, i);
                 pixel = qRgb(gray,gray,gray);
                 qImg.setPixel(i,j,pixel);
             }
