@@ -222,13 +222,15 @@ void VideoThread::videoLoop()
         }
         else
         {
-            (*cap) >> imgHeader;
+            (*cap) >> imgHead;
             if (quit_signal) exit(0); // exit cleanly on interrupt
 
-            QImage image((uchar*)imgHeader.data, imgHeader.cols, imgHeader.rows, imgHeader.step, QImage::Format_RGB888);
+            QImage image((uchar*)imgHead.data, imgHead.cols, imgHead.rows, imgHead.step, QImage::Format_RGB888);
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
+
+            imgBody = imgHead;
 
             perception2Frednator(functionSelected, vectorSelection);
 
