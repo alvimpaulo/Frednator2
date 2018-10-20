@@ -66,8 +66,14 @@ private:
     std::string clientName;
 
     cv::Mat imgHeader;
+<<<<<<< HEAD
+
     cv::Mat imgHead; //img da cabeça do robo
     cv::Mat imgBody; //img do corpo do robo
+=======
+    cv::Mat imgHead;
+    cv::Mat imgBody;
+>>>>>>> temp
 
     std::string strIP;
     std::string copyExec;
