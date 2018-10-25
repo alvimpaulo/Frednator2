@@ -25,6 +25,9 @@ private:
     const int Y_SWITCH_TO_BOTCAMERA;
     const int Y_SWITCH_TO_TOPCAMERA;
     ballCandidate bestCandidate;
+#ifdef DEBUG_PERCEPTION
+    std::vector<cv::Mat> debugImgVector;
+#endif
 public:
     BallDetector():Y_SWITCH_TO_BOTCAMERA(200), Y_SWITCH_TO_TOPCAMERA(30){}
     ballCandidate getBestBallCandidate(std::vector<ballCandidate> candidates);

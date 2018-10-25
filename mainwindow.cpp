@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap background(640,480);
+    QPixmap background(320,240);
     background.fill(Qt::darkGray);
     ui->image_frame->setPixmap(background);
 
@@ -39,7 +39,7 @@ void MainWindow::displayImage()
     }
     else
     {
-        QPixmap background(640,480);
+        QPixmap background(320,240);
         background.fill(Qt::darkGray);
         ui->image_frame->setPixmap(background);
     }

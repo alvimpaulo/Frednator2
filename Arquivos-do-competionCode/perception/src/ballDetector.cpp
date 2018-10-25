@@ -76,8 +76,19 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
     // get black masses
     cv::cvtColor(image, blackMasses, CV_BGR2YCrCb);
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( blackMasses, blackMasses, CV_BGR2YCrCb);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( blackMasses, blackMasses, CV_YCrCb2BGR);
+#endif
     cv::inRange(blackMasses, cv::Scalar(ILOWY, ILOWCR, ILOWCB), cv::Scalar(IHIGHY, IHIGHCR, IHIGHCB), blackMasses);
     cv::GaussianBlur(blackMasses, blackMasses, cv::Size(5,5), 0, 0);
+
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( blackMasses, blackMasses, CV_GRAY2BGR);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( blackMasses, blackMasses, CV_BGR2GRAY);
+#endif
     cv::erode(blackMasses, blackMasses, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3,3)));
 
     // get white masses
@@ -161,6 +172,9 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
 cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
 {
+#ifdef DEBUG_PERCEPTION
+    debugImgVector.assign(1, botImg);
+#endif
     //this->bestCandidate = getBestBallCandidate(findBallCandidates(data->isTopCamera,
     //                                                            data->isTopCamera?topImg:botImg));
 
@@ -190,8 +204,6 @@ cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
     updateData(data);
 #ifdef DEBUG_PERCEPTION
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-            std::vector<cv::Mat> debugImgVector;
-            debugImgVector.assign(1, botImg);
             debugImgVector.push_back(topImg);
             std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
             debugInsertion = data->debugImages.insert(std::make_pair("ballDetector", debugImgVector));
