@@ -13,9 +13,10 @@ fieldCandidate FieldDetector::getRoiField()
 
 cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 {
+    //Cut the center of imgBot
     cv::Mat roi(imgBot, cv::Rect(cv::Point(60,200),cv::Size(200,80)));
     cv::Mat g_TopChromacity(imgTop.rows,imgTop.cols,CV_8UC1), g_BotChromacity(roi.rows,roi.cols,CV_8UC1), hist, dilate_element, erode_element;
-    cv::Vec3b color;
+    cv::Vec3b color; //pixel
 
     #ifdef DEBUG_PERCEPTION
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
@@ -31,7 +32,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
         for (int j = 0; j < roi.cols; j++)
         {
             color = roi.at<cv::Vec3b>(i,j);
-            if (color[0] + color[1] + color [2] == 0)
+            if (color[0] + color[1] + color [2] == 0) //Protection against dividing by zero
                 g_BotChromacity.at<uchar>(i,j) = uchar(0);
             else
                 if(color[0]+color[1]+color[2] > 0)  g_BotChromacity.at<uchar>(i,j) = (255*color[1]/(color[0]+color[1]+color[2]));

@@ -217,8 +217,6 @@ void VideoThread::videoLoop()
 
             camProxy->releaseImages(clientName);
 
-
-
         }
         else
         {
@@ -231,12 +229,8 @@ void VideoThread::videoLoop()
             imagePipe.save(imgContainer);
 
             imgBody = imgHead;
-
             perception2Frednator(functionSelected, vectorSelection);
-
         }
-
-
     }
     else
     {
@@ -254,6 +248,7 @@ cv::Mat VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, Percep
             vectorSelectionCounter++;
         }
     }
+
     //Imagem de interesse é a selecionada
     if(!vectorSelection->currentText().isEmpty()){
         if(vectorSelection->currentText().toInt() < visionData->debugImages[functionName->toStdString()].size()){ // se o valor selecionado estiver dentro do vetor
@@ -284,13 +279,13 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
           }
 
         if(functionSelected == "ballDetector"){
-            ballDetector.run(imgHead, imgHead, &visionData);
+            ballDetector.run(imgHead, imgBody, &visionData);
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "ellipseDetector"){
-            ellipseDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
+            ellipseDetector.run(imgHead, imgBody, &visionData);//roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
@@ -298,21 +293,21 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
         //Funciona
         if(functionSelected == "fieldDetector"){
-            fieldDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
+            fieldDetector.run(imgHead, imgBody, &visionData);//roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "goalDetector"){
-            goalDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
+            goalDetector.run(imgHead, imgBody, &visionData); //roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "lineDetector"){
-            lineDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
+            lineDetector.run(imgHead, imgBody, &visionData); //roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
@@ -320,7 +315,7 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
         //Funciona
         if(functionSelected == "yellowDetector"){
-            yellowDetector.run(imgHead, imgHead, &visionData); //roda a classe e atualiza a visionData
+            yellowDetector.run(imgHead, imgBody, &visionData); //roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
 
