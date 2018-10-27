@@ -209,6 +209,7 @@ void VideoThread::videoLoop()
             //imgHeader.data = (uchar*) imgAlValues[0][6].GetBinary();
 
             QImage image((uchar*)inputTop.data, inputTop.cols, inputTop.rows, inputTop.step, QImage::Format_RGB888);
+            image.bits(); // Força uma copia
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
@@ -221,11 +222,12 @@ void VideoThread::videoLoop()
         else
         {
             if(cap->isOpened()){
-                (*cap) >> imgHead;
+                (*cap).read(imgHead);
             }
             if (quit_signal) exit(0); // exit cleanly on interrupt
 
             QImage image((uchar*)imgHead.data, imgHead.cols, imgHead.rows, imgHead.step, QImage::Format_RGB888);
+            image.bits(); // Força uma copia
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
@@ -271,7 +273,7 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
     if(isWebcam){
         if(cap->isOpened()){
-            (*cap) >> imgHead;
+            (*cap).read(imgHead);
             imgBody = imgHead;
         }
         else {

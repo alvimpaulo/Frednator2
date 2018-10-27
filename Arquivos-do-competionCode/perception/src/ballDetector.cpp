@@ -136,7 +136,6 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
         {
         #ifdef DEBUG_PERCEPTION
             cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
-            debugImgVector.push_back(image);
         #endif
             //check if the black mass is near or inside a white mass
             for (unsigned int j = 0; j < candidates.size(); j++)
@@ -147,7 +146,6 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
                     candidates[j].blackSpots.push_back(blackArea);
                 #ifdef DEBUG_PERCEPTION
                     cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
-                    debugImgVector.push_back(image);
                 #endif
 
                 }
