@@ -102,8 +102,8 @@ void VideoThread::connectVideo(bool connect, const QString &naoIP)
         {
             isWebcam = true;
             cap = new cv::VideoCapture;
-            cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
-            cap->set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+            cap->set(CV_CAP_PROP_FRAME_WIDTH, 320);
+            cap->set(CV_CAP_PROP_FRAME_HEIGHT, 240);
             if(!cap->open(0))
             {
                 QString message;
@@ -160,8 +160,8 @@ void VideoThread::connectVideo(bool connect, const QString &naoIP)
 
         }
 
-        imgHeader = Mat(cv::Size(640, 480), CV_8UC3);
-        imgSafe = Mat(cv::Size(640, 480), CV_8UC3);
+        imgHeader = Mat(cv::Size(320, 240), CV_8UC3);
+        imgSafe = Mat(cv::Size(320, 240), CV_8UC3);
 
         isConnected = true;
         emit connection(true);
@@ -220,7 +220,9 @@ void VideoThread::videoLoop()
         }
         else
         {
-            (*cap) >> imgHead;
+            if(cap->isOpened()){
+                (*cap) >> imgHead;
+            }
             if (quit_signal) exit(0); // exit cleanly on interrupt
 
             QImage image((uchar*)imgHead.data, imgHead.cols, imgHead.rows, imgHead.step, QImage::Format_RGB888);
@@ -266,6 +268,16 @@ cv::Mat VideoThread::vectorSelectionInterface(QComboBox *vectorSelection, Percep
 
 void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSelection){
     cv::Mat returnImg, srcImg;
+
+    if(isWebcam){
+        if(cap->isOpened()){
+            (*cap) >> imgHead;
+            imgBody = imgHead;
+        }
+        else {
+            return;
+        }
+    }
 
 
     if(functionSelected == "Nenhuma"){
@@ -494,7 +506,7 @@ void VideoThread::savePicture()
     cout << "Screenshot!" << endl;
 
 
-    Mat imgcv(cv::Size(640, 480), CV_8UC3);
+    Mat imgcv(cv::Size(320, 240), CV_8UC3);
     if(isWebcam)
     {
         (*cap) >> imgcv;

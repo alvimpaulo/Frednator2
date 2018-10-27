@@ -59,7 +59,7 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
     const int MAX_BLACK_AREA = 1200;
     const int NEIGHBORHOOD_DISTANCE = 30;
     const int ILOWY = 0;
-    const int IHIGHY = 30;
+    const int IHIGHY = 70;
 
     const int ILOWCR = 110;
     const int IHIGHCR = 150;
@@ -76,13 +76,30 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
     // get black masses
     cv::cvtColor(image, blackMasses, CV_BGR2YCrCb);
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( blackMasses, blackMasses, CV_BGR2YCrCb);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( blackMasses, blackMasses, CV_YCrCb2BGR);
+#endif
     cv::inRange(blackMasses, cv::Scalar(ILOWY, ILOWCR, ILOWCB), cv::Scalar(IHIGHY, IHIGHCR, IHIGHCB), blackMasses);
     cv::GaussianBlur(blackMasses, blackMasses, cv::Size(5,5), 0, 0);
+
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( blackMasses, blackMasses, CV_GRAY2BGR);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( blackMasses, blackMasses, CV_BGR2GRAY);
+#endif
     cv::erode(blackMasses, blackMasses, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3,3)));
 
     // get white masses
     cv::cvtColor(image, whiteMasses, CV_BGR2GRAY);
     cv::threshold(whiteMasses, whiteMasses, 210, 255, CV_THRESH_BINARY);
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( whiteMasses, whiteMasses, CV_GRAY2BGR);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( whiteMasses, whiteMasses, CV_BGR2GRAY);
+#endif
+
     cv::Mat wContours, bContours;
     whiteMasses.copyTo(wContours);
     blackMasses.copyTo(bContours);
@@ -117,7 +134,10 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
         if (blackArea.width * blackArea.height < MAX_BLACK_AREA)
         {
-            //cv::rectangle(image,blackArea,cv::Scalar(255,0,255));
+        #ifdef DEBUG_PERCEPTION
+            cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+            debugImgVector.push_back(image);
+        #endif
             //check if the black mass is near or inside a white mass
             for (unsigned int j = 0; j < candidates.size(); j++)
             {
@@ -125,7 +145,11 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
                         pow(blackArea.y + blackArea.height/2 - candidates[j].center.y, 2) <= pow(candidates[j].radius + NEIGHBORHOOD_DISTANCE,2))
                 {
                     candidates[j].blackSpots.push_back(blackArea);
-                    //cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+                #ifdef DEBUG_PERCEPTION
+                    cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+                    debugImgVector.push_back(image);
+                #endif
+
                 }
             }
         }
@@ -161,6 +185,9 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
 cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
 {
+#ifdef DEBUG_PERCEPTION
+    debugImgVector.assign(1, botImg);
+#endif
     //this->bestCandidate = getBestBallCandidate(findBallCandidates(data->isTopCamera,
     //                                                            data->isTopCamera?topImg:botImg));
 
@@ -190,8 +217,6 @@ cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
     updateData(data);
 #ifdef DEBUG_PERCEPTION
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-            std::vector<cv::Mat> debugImgVector;
-            debugImgVector.assign(1, botImg);
             debugImgVector.push_back(topImg);
             std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
             debugInsertion = data->debugImages.insert(std::make_pair("ballDetector", debugImgVector));
