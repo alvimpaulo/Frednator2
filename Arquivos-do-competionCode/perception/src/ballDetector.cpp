@@ -59,7 +59,7 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
     const int MAX_BLACK_AREA = 1200;
     const int NEIGHBORHOOD_DISTANCE = 30;
     const int ILOWY = 0;
-    const int IHIGHY = 30;
+    const int IHIGHY = 70;
 
     const int ILOWCR = 110;
     const int IHIGHCR = 150;
@@ -94,6 +94,12 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
     // get white masses
     cv::cvtColor(image, whiteMasses, CV_BGR2GRAY);
     cv::threshold(whiteMasses, whiteMasses, 210, 255, CV_THRESH_BINARY);
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( whiteMasses, whiteMasses, CV_GRAY2BGR);
+    debugImgVector.push_back(blackMasses);
+    cv::cvtColor( whiteMasses, whiteMasses, CV_BGR2GRAY);
+#endif
+
     cv::Mat wContours, bContours;
     whiteMasses.copyTo(wContours);
     blackMasses.copyTo(bContours);
@@ -128,7 +134,10 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 
         if (blackArea.width * blackArea.height < MAX_BLACK_AREA)
         {
-            //cv::rectangle(image,blackArea,cv::Scalar(255,0,255));
+        #ifdef DEBUG_PERCEPTION
+            cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+            debugImgVector.push_back(image);
+        #endif
             //check if the black mass is near or inside a white mass
             for (unsigned int j = 0; j < candidates.size(); j++)
             {
@@ -136,7 +145,11 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
                         pow(blackArea.y + blackArea.height/2 - candidates[j].center.y, 2) <= pow(candidates[j].radius + NEIGHBORHOOD_DISTANCE,2))
                 {
                     candidates[j].blackSpots.push_back(blackArea);
-                    //cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+                #ifdef DEBUG_PERCEPTION
+                    cv::rectangle(image,blackArea,cv::Scalar(0,255,255));
+                    debugImgVector.push_back(image);
+                #endif
+
                 }
             }
         }

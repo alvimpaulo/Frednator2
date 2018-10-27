@@ -222,7 +222,9 @@ void VideoThread::videoLoop()
         }
         else
         {
-            (*cap) >> imgHead;
+            if(cap->isOpened()){
+                (*cap) >> imgHead;
+            }
             if (quit_signal) exit(0); // exit cleanly on interrupt
 
             QImage image((uchar*)imgHead.data, imgHead.cols, imgHead.rows, imgHead.step, QImage::Format_RGB888);
@@ -273,8 +275,13 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
     cv::Mat returnImg, srcImg;
 
     if(isWebcam){
-        (*cap) >> imgHead;
-        imgBody = imgHead;
+        if(cap->isOpened()){
+            (*cap) >> imgHead;
+            imgBody = imgHead;
+        }
+        else {
+            return;
+        }
     }
 
 
@@ -289,13 +296,13 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
           }
 
         if(functionSelected == "ballDetector"){
-            ballDetector.run(imgHead, imgHead, &visionData);
+            ballDetector.run(imgHead, imgBody, &visionData);
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
         //Funciona
         if(functionSelected == "ellipseDetector"){
-            ellipseDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
+            ellipseDetector.run(imgHead, imgBody, &visionData);//roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
@@ -303,7 +310,7 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
         //Funciona
         if(functionSelected == "fieldDetector"){
-            fieldDetector.run(imgHead, imgHead, &visionData);//roda a classe e atualiza a visionData
+            fieldDetector.run(imgHead, imgBody, &visionData);//roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }

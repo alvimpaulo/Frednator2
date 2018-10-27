@@ -6,6 +6,7 @@
 cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 {
     cv::Mat src  =  topImg.clone();
+    debugImgVector.assign(1, topImg);
 
     //Yellow HSL values range definitions
     int iLowH = 20;
@@ -25,6 +26,12 @@ cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *dat
     cv::cvtColor(src, src_HSV, cv::COLOR_BGR2HSV); 
     cv::blur(src_HSV, src_HSV, cv::Size(2,2));
     cv::inRange(src_HSV, cv::Scalar(iLowH, iLowS, iLowV), cv::Scalar(iHighH, iHighS, iHighV), src_HSV);
+
+#ifdef DEBUG_PERCEPTION
+    cv::cvtColor( src_HSV, src_HSV, CV_GRAY2BGR);
+    debugImgVector.push_back(src_HSV);
+    cv::cvtColor( src_HSV, src_HSV, CV_BGR2GRAY);
+#endif
 
     //Morphological transformations
     cv::Mat element = cv::getStructuringElement( 0, cv::Size( 3, 3 ), cv::Point( 1, 1 ) );
@@ -84,8 +91,8 @@ cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *dat
 
     #ifdef DEBUG_PERCEPTION
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-        std::vector<cv::Mat> debugImgVector;
-        debugImgVector.assign(1, drawing);
+
+        debugImgVector.push_back(drawing);
         std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
         debugInsertion = data->debugImages.insert(std::make_pair("yellowDetector", debugImgVector));
         if(!debugInsertion.second){

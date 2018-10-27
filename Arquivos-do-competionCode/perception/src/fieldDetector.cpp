@@ -20,8 +20,8 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
         std::vector<cv::Mat> debugImgVector;
-        debugImgVector.assign(1, imgTop);
-        debugImgVector.push_back(imgBot);
+        debugImgVector.assign(1, imgTop); //0
+        debugImgVector.push_back(imgBot); //1
     #endif
     //calculates green chromacity for both top and bottom images
     for (int i = 0; i < roi.rows; i++)
@@ -79,7 +79,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 #ifdef DEBUG_PERCEPTION
     //std::cout << "i_max_g: " << i_max_g * 256/(hsize) << std::endl;
     cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_GRAY2BGR);
-    debugImgVector.push_back(g_TopChromacity); //teve que converter
+    debugImgVector.push_back(g_TopChromacity); //2
     cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_BGR2GRAY);
     //imwrite("top green chromacity.jpg",g_TopChromacity);
 #endif
@@ -160,7 +160,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
         #ifdef DEBUG_PERCEPTION
             cv::cvtColor( roi_field, roi_field, CV_GRAY2BGR);
-            debugImgVector.push_back(roi_field); //teve que converter
+            debugImgVector.push_back(roi_field); //3
             cv::cvtColor( roi_field, roi_field, CV_BGR2GRAY);
         #endif
 
@@ -176,10 +176,10 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);
-    debugImgVector.push_back(roi_field_BRG);
+    debugImgVector.push_back(roi_field_BRG); //4
 
     cv::cvtColor( roi_goal, roi_goal, CV_GRAY2BGR);
-    debugImgVector.push_back(roi_goal); //teve que converter
+    debugImgVector.push_back(roi_goal); //5
     cv::cvtColor( roi_goal, roi_goal, CV_BGR2GRAY);
 
     // atualize the perception data debugImages with debugImgVector.

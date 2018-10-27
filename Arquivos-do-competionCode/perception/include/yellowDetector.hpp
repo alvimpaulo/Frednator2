@@ -13,6 +13,7 @@ private:
 
     int distance;
     float angle;
+    std::vector<cv::Mat> debugImgVector;
 
 public:
     YellowDetector(){}
