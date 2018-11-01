@@ -26,6 +26,7 @@ private slots:
     void startRecording(QString fileName);
     void stopRecording();
     void functionChanged(QString, QComboBox*);
+    void param1Changed(QString);
 private:
     VideoThread *videoThread;
     QTimer *timer;

@@ -88,6 +88,7 @@ public:
     void stopRecording();
     void functionChanged(QString functionToChange, QComboBox* vectorSelection);
     void perception2Frednator(QString functionName, QComboBox* vectorSelection);
+    void yellowParam1Changed(QString param1Value);
 
     BallDetector ballDetector;
     EllipseDetector ellipseDetector;

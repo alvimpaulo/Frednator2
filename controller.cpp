@@ -59,6 +59,9 @@ Controller::Controller(int argc, char *argv[])
     //Connect the Save Picture Button with the thread routine
     connect(&w, SIGNAL(savePicture()), videoThread, SLOT(savePicture()));
 
+    //Connect the Param 1 Value to the value of the function
+    connect(&w, SIGNAL(newParam1Selected(QString)),this, SLOT(param1Changed(QString)));
+
 
     workerThread.start();
     prog.exec();
@@ -112,4 +115,8 @@ void Controller::stopRecording()
 
 void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection){
     videoThread->functionChanged(newFunction, vectorSelection);
+}
+
+void Controller::param1Changed(QString param1Value){
+    videoThread->yellowParam1Changed(param1Value);
 }

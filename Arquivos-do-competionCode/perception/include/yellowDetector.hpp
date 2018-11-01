@@ -16,8 +16,7 @@ private:
 #ifdef DEBUG_PERCEPTION
     std::vector<cv::Mat> debugImgVector;
 #endif
-    //Yellow HSL values range definitions
-    int iLowH, iHighH, iLowS, iHighS, iLowV, iHighV;
+
 
 public:
     YellowDetector():
@@ -32,6 +31,9 @@ public:
     virtual void updateData(PerceptionData *data);
 
     virtual int getDistance();
+
+    //Yellow HSL values range definitions
+    int iLowH, iHighH, iLowS, iHighS, iLowV, iHighV;
 };
 
 #endif // YELLOWDETECTOR_HPP

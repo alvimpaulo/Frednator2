@@ -129,6 +129,10 @@ void MainWindow::on_FunctionSelected_activated(QString functionSelected){
   emit newFunctionSelected(functionSelected, ui->debugImageVectorSelector);
 }
 
+void MainWindow::on_Param1_returnPressed(){
+  emit newParam1Selected(ui->Param1->text());
+}
+
 void MainWindow::checkConnection(bool connection)
 {
     if(connection){

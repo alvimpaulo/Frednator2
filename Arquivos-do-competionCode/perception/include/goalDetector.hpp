@@ -19,11 +19,7 @@ private:
     std::vector<cv::Mat> debugImgVector;
 #endif
 
-    //treshold for binary image
-    int grad_threshold;
-    //Sobel arguments
-    int scale;
-    int delta;
+
 
 public:
     GoalDetector():
@@ -35,6 +31,12 @@ public:
     int getGreenVerticalAvg(){return this->greenVerticalAvg;}
     void setGreenVerticalAvg(int newGreenVerticalAvg){this->greenVerticalAvg = newGreenVerticalAvg;}
     virtual void updateData(PerceptionData *data);
+
+    //treshold for binary image
+    int grad_threshold;
+    //Sobel arguments
+    int scale;
+    int delta;
 };
 
 #endif // GOALDETECTOR_HPP

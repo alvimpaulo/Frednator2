@@ -13,11 +13,6 @@ private:
     std::vector<cv::Mat> debugImgVector;
 #endif
 
-    // Thresholds for angles between lines and hough lines to limit the ammount of lines
-    float line_threshold_theta_low;
-    float line_threshold_theta_high;
-    int line_threshold_rho;
-    int houghLinesThreshold;
 
 public:
     LineDetector():
@@ -28,6 +23,13 @@ public:
     {}
     virtual cv::Mat run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);
     virtual void updateData(PerceptionData *data);
+
+    // Thresholds for angles between lines and hough lines to limit the ammount of lines
+    float line_threshold_theta_low;
+    float line_threshold_theta_high;
+    int line_threshold_rho;
+    int houghLinesThreshold;
+
 };
 
 #endif // LINEDETECTOR_HPP

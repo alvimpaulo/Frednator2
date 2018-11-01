@@ -299,7 +299,7 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
 
         //Funciona
         if(functionSelected == "ellipseDetector"){
-            ellipseDetector.run(imgHead, imgBody, &visionData);//roda a classe e atualiza a visionData
+            ellipseDetector.run(imgHead, fieldDetector.getRoiField().fieldImg, &visionData);//roda a classe e atualiza a visionData
 
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
@@ -532,4 +532,8 @@ void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSel
     functionSelected = functionToChange;
     this->vectorSelection = vectorSelection;
     this->vectorSelection->clear();
+}
+
+void VideoThread::yellowParam1Changed(QString param1Value){
+    this->yellowDetector.iLowH = param1Value.toInt();
 }
