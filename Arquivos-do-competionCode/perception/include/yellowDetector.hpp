@@ -13,10 +13,21 @@ private:
 
     int distance;
     float angle;
+#ifdef DEBUG_PERCEPTION
     std::vector<cv::Mat> debugImgVector;
+#endif
+    //Yellow HSL values range definitions
+    int iLowH, iHighH, iLowS, iHighS, iLowV, iHighV;
 
 public:
-    YellowDetector(){}
+    YellowDetector():
+        iLowH(20),
+        iHighH(30),
+        iLowS(100),
+        iHighS(255),
+        iLowV(100),
+        iHighV(255)
+    {}
     virtual cv::Mat run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data);
     virtual void updateData(PerceptionData *data);
 

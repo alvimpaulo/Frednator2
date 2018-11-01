@@ -8,7 +8,6 @@ cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData
       std::cout << "teste 0" << "\n";
 
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-    std::vector<cv::Mat> debugImgVector;
     debugImgVector.assign(1, src);
     #endif
     

@@ -16,6 +16,9 @@ class FieldDetector : public FeatureDetector
 private:
     fieldCandidate bestField;
     cv::Mat greenRegion;
+#ifdef DEBUG_PERCEPTION
+    std::vector<cv::Mat> debugImgVector;
+#endif
 public:
     FieldDetector(){}
     cv::Mat getGreenRegion();

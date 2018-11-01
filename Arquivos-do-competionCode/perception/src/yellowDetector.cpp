@@ -1,20 +1,11 @@
 #include "yellowDetector.hpp"
 
-#define DEBUG_PERCEPTION 1
 
 //Finds contours of yellow bodies (robot jersey) and calculates distance based on jersey boundaries size
 cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 {
     cv::Mat src  =  topImg.clone();
     debugImgVector.assign(1, topImg);
-
-    //Yellow HSL values range definitions
-    int iLowH = 20;
-    int iHighH = 30;
-    int iLowS = 100; 
-    int iHighS = 255;
-    int iLowV = 100;
-    int iHighV = 255;
 
     //Variables initialization
     cv::Mat src_HSV;

@@ -1,13 +1,11 @@
 #include "lineDetector.hpp"
-#define DEBUG_PERCEPTION 1
 
 cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data)
 {
-    // Thresholds for angles between lines and hough lines to limit the ammount of lines
-	float line_threshold_theta_low = 0.1;
-	float line_threshold_theta_high = 0.4;
-    int line_threshold_rho = 6;
-    int houghLinesThreshold = 70;
+#ifdef DEBUG_PERCEPTION
+    debugImgVector.assign(1, greenFrame);
+#endif
+
 
     // Mat for the edges in the green region
     cv::Mat edges, aux_edges/*,greenframe*/;
@@ -93,8 +91,6 @@ cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *da
 
     #ifdef DEBUG_PERCEPTION
     //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-        std::vector<cv::Mat> debugImgVector;
-        debugImgVector.assign(1, greenFrame);
         debugImgVector.push_back(edges);
         std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInsertion;
         debugInsertion = data->debugImages.insert(std::make_pair("lineDetector", debugImgVector));

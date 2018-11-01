@@ -12,6 +12,10 @@ class EllipseDetector : public FeatureDetector
 private:
     cv::Point media;
     float media_angle;
+
+#ifdef DEBUG_PERCEPTION
+    std::vector<cv::Mat> debugImgVector;
+#endif
 public:
     EllipseDetector(){}
     virtual cv::Mat run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);

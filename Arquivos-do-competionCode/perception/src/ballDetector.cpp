@@ -1,5 +1,5 @@
 #include "ballDetector.hpp"
-#define DEBUG_PERCEPTION 1
+
 
 /*
  *

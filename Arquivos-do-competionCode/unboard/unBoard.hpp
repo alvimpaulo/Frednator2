@@ -16,7 +16,7 @@
 #include <types/SensorValues.hpp>
 #include <RoboCupGameControlData.h>
 
-#define DEBUG_PERCEPTION 1
+
 
 
 /**

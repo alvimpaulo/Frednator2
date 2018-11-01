@@ -1,19 +1,17 @@
 #include "goalDetector.hpp"
-#define DEBUG_PERCEPTION 1
+
 
 //void GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 {
     #ifdef DEBUG_PERCEPTION
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-        std::vector<cv::Mat> debugImgVector;
         debugImgVector.assign(1, topImg);
     #endif
     // Goal detection on roi_field
     cv::Mat goal = topImg.clone();
     cv::Mat src_gray,src;
-    //treshold for binary image
-    int t = 240;
+
     cv::Mat campo = cv::Mat::zeros(goal.rows,goal.cols, CV_8UC1);
     cv::cvtColor( goal, src_gray, CV_BGR2GRAY );
     #ifdef DEBUG_PERCEPTION
@@ -36,8 +34,7 @@ cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
         debugImgVector.push_back(src); //teve que converter
         cv::cvtColor( src, src, CV_BGR2GRAY);
     #endif
-    int scale = 1;
-    int delta = 0;
+
     int ddepth = CV_16S;
 
     cv::Mat grad;
@@ -47,7 +44,7 @@ cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
     cv::convertScaleAbs( grad, grad);
 
     //cv::addWeighted( abs_grad_x, 1, cv::Mat::zeros(abs_grad_x.rows,abs_grad_x.cols,CV_8UC1)  , 0.5, 0, grad );
-    cv::threshold( grad, grad, t, 255,0 );
+    cv::threshold( grad, grad, grad_threshold, 255,0 );
     //Noise canceling
     cv::dilate(grad,grad,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(1,3)),cv::Point(-1,-1)); //3
     cv::erode(grad,grad,cv::getStructuringElement(cv::MORPH_RECT,cv::Size(1,9)),cv::Point(-1,-1)); //7

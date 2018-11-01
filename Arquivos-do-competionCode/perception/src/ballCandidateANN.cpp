@@ -1,5 +1,5 @@
 #include "ballCandidateANN.hpp"
-#define DEBUG_PERCEPTION 1
+
 
 ballAnnDetector::ballAnnDetector(char *xml){ //construtor
     annTrained.load(xml);

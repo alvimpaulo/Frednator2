@@ -1,5 +1,5 @@
 #include "fieldDetector.hpp"
-#define DEBUG_PERCEPTION 1
+
 
 cv::Mat FieldDetector::getGreenRegion()
 {
@@ -20,7 +20,6 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     #ifdef DEBUG_PERCEPTION
 
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-        std::vector<cv::Mat> debugImgVector;
         debugImgVector.assign(1, imgTop);
         debugImgVector.push_back(imgBot);
         debugImgVector.push_back(roi);
