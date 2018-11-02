@@ -24,7 +24,7 @@ Controller::Controller(int argc, char *argv[])
     connect(videoThread, SIGNAL(connection(bool)), &w, SLOT(checkConnection(bool)));
 
 	//Connect the function selector
-    connect(&w, SIGNAL(newFunctionSelected(QString, QComboBox*)),this, SLOT(functionChanged(QString, QComboBox*)));
+    connect(&w, SIGNAL(newFunctionSelected(QString, QComboBox*, QGridLayout*)),this, SLOT(functionChanged(QString, QComboBox*, QGridLayout*)));
 
     //Connect the image on the thread to show it on the GUI
     connect(videoThread, SIGNAL(sendFrame()), &w, SLOT(displayImage()));
@@ -59,8 +59,7 @@ Controller::Controller(int argc, char *argv[])
     //Connect the Save Picture Button with the thread routine
     connect(&w, SIGNAL(savePicture()), videoThread, SLOT(savePicture()));
 
-    //Connect the Param 1 Value to the value of the function
-    connect(&w, SIGNAL(newParam1Selected(QString)),this, SLOT(param1Changed(QString)));
+
 
 
     workerThread.start();
@@ -113,10 +112,86 @@ void Controller::stopRecording()
     videoThread->stopRecording();
 }
 
-void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection){
-    videoThread->functionChanged(newFunction, vectorSelection);
+void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection, QGridLayout* paramLayout){
+    if(newFunction == "yellowDetector"){ // adicionar os line edits e labels com os argumentos da classe do detector
+
+        //iLowH
+        QLineEdit* iLowHLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iLowH));
+        iLowHLineEdit->setPlaceholderText("ILowH");
+        paramLayout->addWidget(new QLabel("iLowH"),0,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowH", iLowHLineEdit)); // nao sei se vou usar
+        connect(iLowHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iLowHLineEdit,0,1);
+
+        //iHighH
+        QLineEdit* iHighHLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iHighH));
+        iHighHLineEdit->setPlaceholderText("iHighH");
+        paramLayout->addWidget(new QLabel("iHighH"),1,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighH", iHighHLineEdit)); // nao sei se vou usar
+        connect(iHighHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iHighHLineEdit,1,1);
+
+        //iLowS
+        QLineEdit* iLowSLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iLowS));
+        iLowSLineEdit->setPlaceholderText("iLowS");
+        paramLayout->addWidget(new QLabel("iLowS"),2,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowS", iLowSLineEdit)); // nao sei se vou usar
+        connect(iLowSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iLowSLineEdit,2,1);
+
+        //iHighS
+        QLineEdit* iHighSLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iHighS));
+        iHighSLineEdit->setPlaceholderText("iHighS");
+        paramLayout->addWidget(new QLabel("iHighS"),3,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighS", iHighSLineEdit)); // nao sei se vou usar
+        connect(iHighSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iHighSLineEdit,3,1);
+
+        //iLowV
+        QLineEdit* iLowVLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iLowV));
+        iLowVLineEdit->setPlaceholderText("iLowV");
+        paramLayout->addWidget(new QLabel("iLowV"),4,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowV", iLowVLineEdit)); // nao sei se vou usar
+        connect(iLowVLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iLowVLineEdit,4,1);
+
+        //iHighV
+        QLineEdit* iHighVLineEdit = new QLineEdit(QString::number(videoThread->yellowDetector.iHighV));
+        iHighVLineEdit->setPlaceholderText("iHighV");
+        paramLayout->addWidget(new QLabel("iHighV"),5,0);
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighV", iHighVLineEdit)); // nao sei se vou usar
+        connect(iHighVLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addWidget(iHighVLineEdit,5,1);
+
+
+    }
+
+    videoThread->functionChanged(newFunction, vectorSelection, paramLayout);
 }
 
-void Controller::param1Changed(QString param1Value){
-    videoThread->yellowParam1Changed(param1Value);
+void Controller::paramChanged(){
+    QLineEdit* lineEdit = qobject_cast<QLineEdit*>(sender());
+
+    if(lineEdit->placeholderText() == "ILowH"){
+        videoThread->yellowDetector.iLowH = (lineEdit->text().toInt());
+    }
+    if(lineEdit->placeholderText() == "iHighH"){
+        videoThread->yellowDetector.iHighH = (lineEdit->text().toInt());
+    }
+    if(lineEdit->placeholderText() == "iLowS"){
+        videoThread->yellowDetector.iLowS = (lineEdit->text().toInt());
+    }
+    if(lineEdit->placeholderText() == "iHighS"){
+        videoThread->yellowDetector.iHighS = (lineEdit->text().toInt());
+    }
+    if(lineEdit->placeholderText() == "iLowV"){
+        videoThread->yellowDetector.iLowV = (lineEdit->text().toInt());
+    }
+    if(lineEdit->placeholderText() == "iHighV"){
+        videoThread->yellowDetector.iHighV = (lineEdit->text().toInt());
+    }
+
+
 }
+
+

@@ -201,10 +201,10 @@
        <x>40</x>
        <y>170</y>
        <width>251</width>
-       <height>123</height>
+       <height>248</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="ParamLayout">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -217,51 +217,6 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="0" rowspan="3">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Param1</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Param2</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Param3</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="Param1">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>False</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
     <widget class="QComboBox" name="debugImageVectorSelector">

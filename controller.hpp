@@ -25,11 +25,14 @@ private slots:
     void startTimer();
     void startRecording(QString fileName);
     void stopRecording();
-    void functionChanged(QString, QComboBox*);
-    void param1Changed(QString);
+    void functionChanged(QString, QComboBox*, QGridLayout*);
+    void paramChanged();
 private:
     VideoThread *videoThread;
     QTimer *timer;
+
+    //map de lineEdits que contém os parametros da classe
+    std::map<QString,QLineEdit*> lineEditMap;
 
 
 

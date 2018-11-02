@@ -15,6 +15,9 @@
 #include <QImage>
 #include <QString>
 #include <QComboBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
 
 #include <yellowDetector.hpp>
 #include <ballDetector.hpp>
@@ -41,8 +44,6 @@ public slots:
     void connectVideo(bool connect, const QString &naoIP);
     void videoLoop();
     void savePicture();
-    //void functionChanged(QString);
-
 
 private:
     bool isAlive;
@@ -56,6 +57,7 @@ private:
     QString functionSelected; // Classe atualmente selecionada
     QString lastFunctionName; // Ultima classe a ser selecionada
     QComboBox* vectorSelection; //Seleciona qual imagem de debug se quer mostrar
+    QGridLayout* paramLayout; //Layout que possui os parametros de uma classe para se alterar
     bool flagVectorSelectionChanged;
 
     int screenshotCounter;
@@ -76,7 +78,14 @@ private:
     frednatorData imgContainer;
     cv::VideoCapture *cap;
 
+    //selecao dos vetores
     cv::Mat vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData, QString *functionName);
+
+
+
+    //Atualiza algum parametro das classes
+
+
 
 
 public:
@@ -86,9 +95,8 @@ public:
     void stopThread();
     void startRecording(QString fileName);
     void stopRecording();
-    void functionChanged(QString functionToChange, QComboBox* vectorSelection);
+    void functionChanged(QString functionToChange, QComboBox* vectorSelection, QGridLayout* paramLayout);
     void perception2Frednator(QString functionName, QComboBox* vectorSelection);
-    void yellowParam1Changed(QString param1Value);
 
     BallDetector ballDetector;
     EllipseDetector ellipseDetector;

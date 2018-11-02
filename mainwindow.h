@@ -38,6 +38,7 @@
 
 #include <QMainWindow>
 #include <QComboBox>
+#include <QGridLayout>
 
 namespace Ui {
 class MainWindow;
@@ -58,13 +59,13 @@ public slots:
     void updateStatusMessage(QString message);
     void checkConnection(bool connection); //Receives a signal when the connection is stablished and changes the connectButton text
 
+
 private slots:
     void on_connectButton_clicked(); //Calls the connectVideo slot
     void on_StartRecordingButton_clicked();
     void on_changeCameraButton_clicked();
     void on_pushButton_clicked();
     void on_FunctionSelected_activated(QString functionName); //selects the function to be used on camera
-    void on_Param1_returnPressed();
 
 signals:
     void connectCamera(bool connection, QString naoIP);
@@ -73,8 +74,7 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
-    void newFunctionSelected(QString, QComboBox*);
-    void newParam1Selected(QString);
+    void newFunctionSelected(QString, QComboBox*, QGridLayout*);
 
 private:
     Ui::MainWindow *ui;

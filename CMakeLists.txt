@@ -30,7 +30,6 @@ set(_srcs
   Arquivos-do-competionCode/unboard/BehaviorRequest.hpp
   Arquivos-do-competionCode/thread/threadClass.cpp
   Arquivos-do-competionCode/module/basemodule.cpp
-  
 )
 
 #Behaviour Sources

@@ -126,11 +126,7 @@ void MainWindow::on_pushButton_clicked()
 }
 
 void MainWindow::on_FunctionSelected_activated(QString functionSelected){
-  emit newFunctionSelected(functionSelected, ui->debugImageVectorSelector);
-}
-
-void MainWindow::on_Param1_returnPressed(){
-  emit newParam1Selected(ui->Param1->text());
+      emit newFunctionSelected(functionSelected, ui->debugImageVectorSelector, ui->ParamLayout);
 }
 
 void MainWindow::checkConnection(bool connection)
@@ -144,3 +140,6 @@ void MainWindow::checkConnection(bool connection)
         isConnected = false;
     }
 }
+
+
+

@@ -528,12 +528,10 @@ void VideoThread::savePicture()
     }
 }
 
-void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSelection){
+void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSelection, QGridLayout* paramLayout){
     functionSelected = functionToChange;
+    this->paramLayout = paramLayout;
+
     this->vectorSelection = vectorSelection;
     this->vectorSelection->clear();
-}
-
-void VideoThread::yellowParam1Changed(QString param1Value){
-    this->yellowDetector.iLowH = param1Value.toInt();
 }
