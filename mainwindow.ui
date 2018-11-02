@@ -298,5 +298,22 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lineIP</sender>
+   <signal>returnPressed()</signal>
+   <receiver>connectButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>206</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>316</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

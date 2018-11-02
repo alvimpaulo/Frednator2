@@ -206,10 +206,18 @@ void VideoThread::videoLoop()
             inputBot.copyTo(imgBody);
             inputTop.copyTo(imgHead);
 
-            //imgHeader.data = (uchar*) imgAlValues[0][6].GetBinary();
+            QImage image;
 
-            QImage image((uchar*)inputTop.data, inputTop.cols, inputTop.rows, inputTop.step, QImage::Format_RGB888);
-            image.bits(); // Força uma copia
+            //imgHeader.data = (uchar*) imgAlValues[0][6].GetBinary();
+            if(cameraID == "top"){
+                image = QImage((uchar*)inputTop.data, inputTop.cols, inputTop.rows, inputTop.step, QImage::Format_RGB888);
+                image.bits(); // Força uma copia
+            }
+
+            else{
+                image = QImage((uchar*)inputBot.data, inputTop.cols, inputTop.rows, inputTop.step, QImage::Format_RGB888);
+                image.bits(); // Força uma copia
+            }
 
             imgContainer.image = image.rgbSwapped();
             imagePipe.save(imgContainer);
