@@ -15,7 +15,7 @@
 #include <QImage>
 #include <QString>
 #include <QComboBox>
-#include <QGridLayout>
+#include <QFormLayout>
 #include <QLabel>
 #include <QLineEdit>
 
@@ -57,7 +57,7 @@ private:
     QString functionSelected; // Classe atualmente selecionada
     QString lastFunctionName; // Ultima classe a ser selecionada
     QComboBox* vectorSelection; //Seleciona qual imagem de debug se quer mostrar
-    QGridLayout* paramLayout; //Layout que possui os parametros de uma classe para se alterar
+    QFormLayout* paramLayout; //Layout que possui os parametros de uma classe para se alterar
     bool flagVectorSelectionChanged;
 
     int screenshotCounter;
@@ -95,7 +95,7 @@ public:
     void stopThread();
     void startRecording(QString fileName);
     void stopRecording();
-    void functionChanged(QString functionToChange, QComboBox* vectorSelection, QGridLayout* paramLayout);
+    void functionChanged(QString functionToChange, QComboBox* vectorSelection, QFormLayout* paramLayout);
     void perception2Frednator(QString functionName, QComboBox* vectorSelection);
 
     BallDetector ballDetector;

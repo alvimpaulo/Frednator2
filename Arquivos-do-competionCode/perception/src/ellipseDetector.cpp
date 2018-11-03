@@ -1,6 +1,6 @@
 #include "ellipseDetector.hpp"
 
-cv::Mat EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData *data)
+void EllipseDetector::run(cv::Mat topImg,  cv::Mat greenFrame, PerceptionData *data)
 {
 
     cv::Mat src  =  topImg.clone();
@@ -196,8 +196,6 @@ std::pair<std::map<std::string,std::vector<cv::Mat> >::iterator, bool> debugInse
       data->debugImages["ellipseDetector"] = debugImgVector;
   }
 #endif
-
-    return src;
 
 }
 

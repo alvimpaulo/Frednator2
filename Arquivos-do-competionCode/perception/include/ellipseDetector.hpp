@@ -18,7 +18,7 @@ private:
 #endif
 public:
     EllipseDetector(){}
-    virtual cv::Mat run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);
+    virtual void run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);
     virtual void updateData(PerceptionData *data);
 };
 

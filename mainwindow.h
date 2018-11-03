@@ -38,7 +38,7 @@
 
 #include <QMainWindow>
 #include <QComboBox>
-#include <QGridLayout>
+#include <QFormLayout>
 
 namespace Ui {
 class MainWindow;
@@ -74,7 +74,7 @@ signals:
     void record(QString fileName);
     void stopRecording();
     void savePicture();
-    void newFunctionSelected(QString, QComboBox*, QGridLayout*);
+    void newFunctionSelected(QString, QComboBox*, QFormLayout*);
 
 private:
     Ui::MainWindow *ui;

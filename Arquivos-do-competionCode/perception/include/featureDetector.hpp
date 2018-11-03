@@ -21,7 +21,7 @@ public:
         this->lastSeen++;
     }
 
-    virtual cv::Mat run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data) = 0;
+    virtual void run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data) = 0;
     virtual void updateData(PerceptionData*) = 0;
 };
 

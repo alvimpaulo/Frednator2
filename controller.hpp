@@ -7,6 +7,7 @@
 #include <QThread>
 #include <QApplication>
 #include <QTimer>
+#include <QFormLayout>
 
 
 
@@ -25,7 +26,7 @@ private slots:
     void startTimer();
     void startRecording(QString fileName);
     void stopRecording();
-    void functionChanged(QString, QComboBox*, QGridLayout*);
+    void functionChanged(QString, QComboBox*, QFormLayout*);
     void paramChanged();
 private:
     VideoThread *videoThread;

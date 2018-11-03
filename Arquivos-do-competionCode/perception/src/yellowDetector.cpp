@@ -2,7 +2,7 @@
 
 
 //Finds contours of yellow bodies (robot jersey) and calculates distance based on jersey boundaries size
-cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
+void YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 {
     cv::Mat src  =  topImg.clone();
     debugImgVector.assign(1, topImg);
@@ -91,8 +91,6 @@ cv::Mat YellowDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *dat
         }
         cv::imwrite("Contornos.jpg", drawing);
     #endif
-
-    return drawing;
 
     updateData(data);
 }

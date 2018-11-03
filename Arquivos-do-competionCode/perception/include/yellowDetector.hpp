@@ -27,7 +27,7 @@ public:
         iLowV(100),
         iHighV(255)
     {}
-    virtual cv::Mat run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data);
+    virtual void run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data);
     virtual void updateData(PerceptionData *data);
 
     virtual int getDistance();

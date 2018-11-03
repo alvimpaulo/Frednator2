@@ -11,7 +11,7 @@ fieldCandidate FieldDetector::getRoiField()
     return this->bestField;
 }
 
-cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
+void FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 {
     cv::Mat roi(imgBot, cv::Rect(cv::Point(60,140),cv::Size(200,80)));
     cv::Mat g_TopChromacity(imgTop.rows,imgTop.cols,CV_8UC1), g_BotChromacity(roi.rows,roi.cols,CV_8UC1), hist, dilate_element, erode_element;
@@ -20,9 +20,9 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     #ifdef DEBUG_PERCEPTION
 
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
-        debugImgVector.assign(1, imgTop);
-        debugImgVector.push_back(imgBot);
-        debugImgVector.push_back(roi);
+        debugImgVector.assign(1, imgTop); //0
+        debugImgVector.push_back(imgBot); // 1
+        debugImgVector.push_back(roi); //2
     #endif
 
     //calculates green chromacity for both top and bottom images
@@ -67,13 +67,18 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     min_g = (i_max_g * 256/(hsize));
     max_g = 255;//min_g + 45;
 
-    // eliminates all non green pixels, green pixels become white
-    cv::threshold(g_TopChromacity,g_TopChromacity,max_g,255,CV_THRESH_TOZERO_INV);
-    cv::threshold(g_TopChromacity,g_TopChromacity,min_g,255,CV_THRESH_TOZERO);
-    cv::threshold(g_TopChromacity,g_TopChromacity,0,255,CV_THRESH_BINARY);
+    // e 
 
     dilate_element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2, 2), cv::Point(-1, -1) );
     cv::dilate(g_TopChromacity, g_TopChromacity, dilate_element);
+
+#ifdef DEBUG_PERCEPTION
+    //std::cout << "i_max_g: " << i_max_g * 256/(hsize) << std::endl;
+    cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_GRAY2BGR);
+    debugImgVector.push_back(g_TopChromacity); //teve que converter //3
+    cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_BGR2GRAY);
+    //imwrite("top green chromacity.jpg",g_TopChromacity);
+#endif
 
     erode_element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7), cv::Point(-1, -1) );
     cv::erode(g_TopChromacity, g_TopChromacity, erode_element);
@@ -81,7 +86,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 #ifdef DEBUG_PERCEPTION
     //std::cout << "i_max_g: " << i_max_g * 256/(hsize) << std::endl;
     cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_GRAY2BGR);
-    debugImgVector.push_back(g_TopChromacity); //teve que converter
+    debugImgVector.push_back(g_TopChromacity); //teve que converter //4
     cv::cvtColor( g_TopChromacity, g_TopChromacity, CV_BGR2GRAY);
     //imwrite("top green chromacity.jpg",g_TopChromacity);
 #endif
@@ -162,7 +167,7 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
         #ifdef DEBUG_PERCEPTION
             cv::cvtColor( roi_field, roi_field, CV_GRAY2BGR);
-            debugImgVector.push_back(roi_field); //teve que converter
+            debugImgVector.push_back(roi_field); //teve que converter //5
             cv::cvtColor( roi_field, roi_field, CV_BGR2GRAY);
         #endif
 
@@ -178,10 +183,10 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
 
 #ifdef DEBUG_PERCEPTION
     //imwrite("roi field.jpg",roi_field);
-    debugImgVector.push_back(roi_field_BRG);
+    debugImgVector.push_back(roi_field_BRG); //6
 
     cv::cvtColor( roi_goal, roi_goal, CV_GRAY2BGR);
-    debugImgVector.push_back(roi_goal); //teve que converter
+    debugImgVector.push_back(roi_goal); //teve que converter //7
     cv::cvtColor( roi_goal, roi_goal, CV_BGR2GRAY);
 
     // atualize the perception data debugImages with debugImgVector.
@@ -190,8 +195,6 @@ cv::Mat FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     if(!debugInsertion.second){
         data->debugImages["fieldDetector"] = debugImgVector;
     }
-
-    return roi_field_BRG;
     //imwrite("roi goal.jpg",roi_goal);
 #endif
 

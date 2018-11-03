@@ -181,7 +181,7 @@ std::vector<ballCandidate> BallDetector::findBallCandidates(cv::Mat image)
 }
 
 
-cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
+void BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
 {
 #ifdef DEBUG_PERCEPTION
     debugImgVector.assign(1, botImg);
@@ -222,8 +222,6 @@ cv::Mat BallDetector::run(cv::Mat botImg, cv::Mat topImg,PerceptionData* data)
                 data->debugImages["ballDetector"] = debugImgVector;
             }
 #endif
-
-    return botImg;
 }
 
 void BallDetector::updateData(PerceptionData *data)

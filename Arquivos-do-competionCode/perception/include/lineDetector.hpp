@@ -21,7 +21,7 @@ public:
         line_threshold_rho(6),
         houghLinesThreshold(70)
     {}
-    virtual cv::Mat run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);
+    virtual void run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data);
     virtual void updateData(PerceptionData *data);
 
     // Thresholds for angles between lines and hough lines to limit the ammount of lines

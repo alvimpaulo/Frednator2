@@ -27,7 +27,7 @@ public:
     scale(1),
     delta(0)
     {}
-    virtual cv::Mat run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data);
+    virtual void run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data);
     int getGreenVerticalAvg(){return this->greenVerticalAvg;}
     void setGreenVerticalAvg(int newGreenVerticalAvg){this->greenVerticalAvg = newGreenVerticalAvg;}
     virtual void updateData(PerceptionData *data);

@@ -536,7 +536,7 @@ void VideoThread::savePicture()
     }
 }
 
-void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSelection, QGridLayout* paramLayout){
+void VideoThread::functionChanged(QString functionToChange, QComboBox* vectorSelection, QFormLayout* paramLayout){
     functionSelected = functionToChange;
     this->paramLayout = paramLayout;
 

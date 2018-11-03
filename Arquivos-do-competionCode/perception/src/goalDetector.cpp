@@ -2,7 +2,7 @@
 
 
 //void GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
-cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
+void GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
 {
     #ifdef DEBUG_PERCEPTION
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
@@ -100,7 +100,6 @@ cv::Mat GoalDetector::run(cv::Mat topImg, cv::Mat goalImg, PerceptionData *data)
             data->debugImages["goalDetector"] = debugImgVector;
         }
 
-        return goal;
         //std::cout << "gol_x = " << std::dec << gol_x << " " << this->greenVerticalAvg << std::endl;
     #endif
 }

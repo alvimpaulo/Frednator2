@@ -23,7 +23,7 @@ public:
     FieldDetector(){}
     cv::Mat getGreenRegion();
     fieldCandidate getRoiField();
-    virtual cv::Mat run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data);
+    virtual void run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data);
     virtual void updateData(PerceptionData* data);
 };
 

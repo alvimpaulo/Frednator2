@@ -195,30 +195,6 @@
       </property>
      </item>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>170</y>
-       <width>251</width>
-       <height>248</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="ParamLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-     </layout>
-    </widget>
     <widget class="QComboBox" name="debugImageVectorSelector">
      <property name="geometry">
       <rect>
@@ -228,6 +204,17 @@
        <height>27</height>
       </rect>
      </property>
+    </widget>
+    <widget class="QWidget" name="formLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>29</x>
+       <y>179</y>
+       <width>281</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="ParamLayout"/>
     </widget>
    </widget>
    <widget class="QLabel" name="unbeatablesLogo">

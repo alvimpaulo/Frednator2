@@ -1,6 +1,6 @@
 #include "lineDetector.hpp"
 
-cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data)
+void LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *data)
 {
 #ifdef DEBUG_PERCEPTION
     debugImgVector.assign(1, greenFrame);
@@ -100,7 +100,6 @@ cv::Mat LineDetector::run(cv::Mat topImg, cv::Mat greenFrame, PerceptionData *da
 
         cv::imwrite("green_lines.jpg", greenFrame);
         cv::imwrite("detected lines.jpg", edges);
-        return edges;
     #endif
     }
 
