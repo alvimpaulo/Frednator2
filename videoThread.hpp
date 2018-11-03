@@ -58,7 +58,8 @@ private:
     QString lastFunctionName; // Ultima classe a ser selecionada
     QComboBox* vectorSelection; //Seleciona qual imagem de debug se quer mostrar
     QFormLayout* paramLayout; //Layout que possui os parametros de uma classe para se alterar
-    bool flagVectorSelectionChanged;
+    bool videoLoopRunning; //VideoLoop tá rodando
+
 
     int screenshotCounter;
     AL::ALVideoDeviceProxy *camProxy;
@@ -80,10 +81,6 @@ private:
 
     //selecao dos vetores
     cv::Mat vectorSelectionInterface(QComboBox *vectorSelection, PerceptionData *visionData, QString *functionName);
-
-
-
-    //Atualiza algum parametro das classes
 
 
 

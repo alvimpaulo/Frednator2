@@ -39,6 +39,7 @@
 #include <QMainWindow>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QCloseEvent>
 
 namespace Ui {
 class MainWindow;

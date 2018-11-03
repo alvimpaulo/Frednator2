@@ -183,6 +183,7 @@ void VideoThread::connectVideo(bool connect, const QString &naoIP)
 
 void VideoThread::videoLoop()
 {
+    videoLoopRunning = true;
     if(isConnected){
         if(!isWebcam)
         {
@@ -194,6 +195,7 @@ void VideoThread::videoLoop()
                 QString message;
                 message = "Fail to Get Frame.";
                 emit statusMessage(message);
+                videoLoopRunning = false;
                 return;
             }
 
@@ -248,6 +250,7 @@ void VideoThread::videoLoop()
     {
         emit sendFrame();
     }
+    videoLoopRunning = false;
 }
 
 //função para fazer a vectorSelectionInterface com o vectorSelectionInterface
@@ -414,10 +417,13 @@ void VideoThread::stopThread()
     if(!isWebcam)
     {
         camProxy->unsubscribe(clientName);
+
     }
     else
     {
-        delete(cap);
+        cap->release();
+        isConnected = false;
+        //delete(cap);
     }
     emit terminateThread();
 }

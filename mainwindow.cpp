@@ -104,7 +104,13 @@ void MainWindow::on_StartRecordingButton_clicked()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     cout << "Emiting close" << endl;
-    emit finishThread();
+    if(threadFinished){
+        event->accept();
+    }
+    else{
+        emit finishThread();
+    }
+
 }
 
 void MainWindow::on_changeCameraButton_clicked()
