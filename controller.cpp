@@ -162,7 +162,7 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
 
     }
 
-    else if(newFunction == "fieldDetector2"){ // adicionar os line edits e labels com os argumentos da classe do detector
+    if(newFunction == "fieldDetector2"){ // adicionar os line edits e labels com os argumentos da classe do detector
 
         //iLowH
         QLineEdit* iLowHLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iLowH));
