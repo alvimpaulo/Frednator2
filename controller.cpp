@@ -113,6 +113,8 @@ void Controller::stopRecording()
 }
 
 void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection, QFormLayout* paramLayout){
+    newfunction = newFunction;
+
     if(newFunction == "yellowDetector"){ // adicionar os line edits e labels com os argumentos da classe do detector
 
         //iLowH
@@ -158,10 +160,54 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
         connect(iHighVLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
         paramLayout->addRow("iHighV", iHighVLineEdit);
 
-
-
     }
 
+    if(newFunction == "fieldDetector2"){ // adicionar os line edits e labels com os argumentos da classe do detector
+
+        //iLowH
+        QLineEdit* iLowHLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iLowH));
+        iLowHLineEdit->setPlaceholderText("ILowH");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowH", iLowHLineEdit)); // nao sei se vou usar
+        connect(iLowHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("ILowH", iLowHLineEdit);
+
+
+        //iHighH
+        QLineEdit* iHighHLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iHighH));
+        iHighHLineEdit->setPlaceholderText("iHighH");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighH", iHighHLineEdit)); // nao sei se vou usar
+        connect(iHighHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighH", iHighHLineEdit);
+
+        //iLowL
+        QLineEdit* iLowLLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iLowL));
+        iLowLLineEdit->setPlaceholderText("iLowL");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowL", iLowLLineEdit)); // nao sei se vou usar
+        connect(iLowLLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowL", iLowLLineEdit);
+
+        //iHighL
+        QLineEdit* iHighLLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iHighL));
+        iHighLLineEdit->setPlaceholderText("iHighL");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighL", iHighLLineEdit)); // nao sei se vou usar
+        connect(iHighLLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighL", iHighLLineEdit);
+
+        //iLowS
+        QLineEdit* iLowSLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iLowS));
+        iLowSLineEdit->setPlaceholderText("iLowS");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowS", iLowSLineEdit)); // nao sei se vou usar
+        connect(iLowSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowS", iLowSLineEdit);
+
+        //iHighS
+        QLineEdit* iHighSLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iHighS));
+        iHighSLineEdit->setPlaceholderText("iHighS");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighS", iHighSLineEdit)); // nao se vou usar
+        connect(iHighSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighS", iHighSLineEdit);
+
+    }
 
     else{
        QLayoutItem* child;
@@ -181,23 +227,46 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
 void Controller::paramChanged(){
     QLineEdit* lineEdit = qobject_cast<QLineEdit*>(sender());
 
-    if(lineEdit->placeholderText() == "ILowH"){
-        videoThread->yellowDetector.iLowH = (lineEdit->text().toInt());
+    if(newfunction == "yellowDetector"){
+        if(lineEdit->placeholderText() == "ILowH"){
+            videoThread->yellowDetector.iLowH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighH"){
+            videoThread->yellowDetector.iHighH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowS"){
+            videoThread->yellowDetector.iLowS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighS"){
+            videoThread->yellowDetector.iHighS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowV"){
+            videoThread->yellowDetector.iLowV = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighV"){
+            videoThread->yellowDetector.iHighV = (lineEdit->text().toInt());
+        }
     }
-    else if(lineEdit->placeholderText() == "iHighH"){
-        videoThread->yellowDetector.iHighH = (lineEdit->text().toInt());
-    }
-    else if(lineEdit->placeholderText() == "iLowS"){
-        videoThread->yellowDetector.iLowS = (lineEdit->text().toInt());
-    }
-    else if(lineEdit->placeholderText() == "iHighS"){
-        videoThread->yellowDetector.iHighS = (lineEdit->text().toInt());
-    }
-    else if(lineEdit->placeholderText() == "iLowV"){
-        videoThread->yellowDetector.iLowV = (lineEdit->text().toInt());
-    }
-    else if(lineEdit->placeholderText() == "iHighV"){
-        videoThread->yellowDetector.iHighV = (lineEdit->text().toInt());
+
+    if(newfunction == "fieldDetector2"){
+        if(lineEdit->placeholderText() == "ILowH"){
+            videoThread->fieldDetector2.iLowH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighH"){
+            videoThread->fieldDetector2.iHighH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowL"){
+            videoThread->fieldDetector2.iLowL = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighL"){
+            videoThread->fieldDetector2.iHighL = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowS"){
+            videoThread->fieldDetector2.iLowS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighS"){
+            videoThread->fieldDetector2.iHighS = (lineEdit->text().toInt());
+        }
     }
 
 

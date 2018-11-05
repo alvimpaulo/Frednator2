@@ -176,6 +176,11 @@
      </item>
      <item>
       <property name="text">
+       <string>fieldDetector2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>yellowDetector</string>
       </property>
      </item>

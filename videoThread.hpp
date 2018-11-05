@@ -22,6 +22,7 @@
 #include <yellowDetector.hpp>
 #include <ballDetector.hpp>
 #include <fieldDetector.hpp>
+#include <fieldDetector2.hpp>
 #include <ellipseDetector.hpp>
 #include <lineDetector.hpp>
 #include <goalDetector.hpp>
@@ -98,6 +99,7 @@ public:
     BallDetector ballDetector;
     EllipseDetector ellipseDetector;
     FieldDetector fieldDetector;
+    FieldDetector2 fieldDetector2;
     GoalDetector goalDetector;
     LineDetector lineDetector;
     YellowDetector yellowDetector;

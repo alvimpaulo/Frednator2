@@ -18,6 +18,7 @@ class Controller : public QObject
 
 public:
     Controller(int argc, char* argv[]);
+    QString newfunction;
     ~Controller();
 
 private slots:
