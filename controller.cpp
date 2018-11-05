@@ -207,6 +207,13 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
         connect(iHighSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
         paramLayout->addRow("iHighS", iHighSLineEdit);
 
+        //factor
+        QLineEdit* factorLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.factor));
+        factorLineEdit->setPlaceholderText("factor");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("factor", factorLineEdit)); // nao se vou usar
+        connect(factorLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("factor", factorLineEdit);
+
     }
 
     else{
@@ -266,6 +273,9 @@ void Controller::paramChanged(){
         }
         else if(lineEdit->placeholderText() == "iHighS"){
             videoThread->fieldDetector2.iHighS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "factor"){
+            videoThread->fieldDetector2.factor = (lineEdit->text().toFloat());
         }
     }
 

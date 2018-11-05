@@ -18,7 +18,6 @@ void FieldDetector::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
     cv::Vec3b color;
 
     #ifdef DEBUG_PERCEPTION
-
         //Create an image vector, put the desired images inside it and atualize the perception data debugImages with it.
         debugImgVector.assign(1, imgTop); //0
         debugImgVector.push_back(imgBot); // 1
