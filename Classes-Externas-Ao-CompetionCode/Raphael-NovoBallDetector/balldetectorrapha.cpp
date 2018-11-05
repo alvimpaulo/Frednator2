@@ -1,7 +1,7 @@
 #include "balldetectorrapha.h"
 
 
-void ballDetectorRapha::run(cv::Mat src){
+void ballDetectorRapha::run(cv::Mat src, cv::Mat src2, PerceptionData *data){
     houghCirclesContrast hough(hough_param1, hough_param2, resize_factor);
     quaternaryMask Mask;
     Mask.generateMask(src);
@@ -24,4 +24,8 @@ void ballDetectorRapha::run(cv::Mat src){
 
 
     }
+}
+
+void ballDetectorRapha::updateData(PerceptionData *){
+
 }

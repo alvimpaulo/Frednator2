@@ -32,7 +32,8 @@ public:
         pixel_param1(PIXEL_PARAM_1),
         pixel_param2(PIXEL_PARAM_2)
     {}
-    virtual void run(cv::Mat src);
+    virtual void run(cv::Mat src, cv::Mat src2, PerceptionData *data);
+    virtual void updateData(PerceptionData *);
 
     int blackLMax, whiteLMin, greenHMean, greenHVar, greenSMin;
     float hough_param1, hough_param2, pixel_param1, pixel_param2;

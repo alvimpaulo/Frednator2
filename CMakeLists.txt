@@ -79,7 +79,6 @@ set(C_SRCS
 #Perception Sources
 set(P_SRCS
     Arquivos-do-competionCode/perception/src/ballDetector.cpp
-    Arquivos-do-competionCode/perception/src/ballDetector2.cpp
     Arquivos-do-competionCode/perception/src/ballCandidateANN.cpp
     Arquivos-do-competionCode/perception/src/perception.cpp
     Arquivos-do-competionCode/perception/src/fieldDetector.cpp
