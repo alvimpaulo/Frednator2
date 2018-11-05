@@ -8,6 +8,7 @@ class FieldDetector2 : public FeatureDetector
 {
 private:
     cv::Mat greenRegion;
+    int horizont;
 
 #ifdef DEBUG_PERCEPTION
     std::vector<cv::Mat> debugImgVector;
@@ -20,7 +21,8 @@ public:
         iLowL(50),
         iHighL(200),
         iLowS(10),
-        iHighS(255)
+        iHighS(255),
+        factor(1.0)
     {}
     cv::Mat getGreenRegion();
     virtual void run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data);
@@ -28,6 +30,8 @@ public:
 
     //Green HSL values range definitions
     int iLowH, iHighH, iLowS, iHighS, iLowL, iHighL;
+    int factor_int;
+    float factor;
 };
 
 #endif // FIELDDETECTOR2_HPP
