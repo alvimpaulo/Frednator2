@@ -308,6 +308,13 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
+        if(functionSelected == "raphaDetector"){
+            raphaDetector.run(imgHead, imgBody, &visionData); //roda a classe e atualiza a raphaDetector
+
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+
+        }
+
         //Funciona
         if(functionSelected == "ellipseDetector"){
             ellipseDetector.run(imgHead, fieldDetector.getRoiField().fieldImg, &visionData);//roda a classe e atualiza a visionData

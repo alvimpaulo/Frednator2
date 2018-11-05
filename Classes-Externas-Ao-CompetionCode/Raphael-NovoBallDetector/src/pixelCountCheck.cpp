@@ -1,11 +1,10 @@
-#include "../include/pixelCountCheck.hpp"
+#include "pixelCountCheck.hpp"
 
-//#define DEBUG 1 //printa valores na linha de comando
+// #define DEBUG 1 //printa valores na linha de comando
 
-pixelCountCheck::pixelCountCheck(float whiteMin, float blackMin, float resize_factor){
+pixelCountCheck::pixelCountCheck(float whiteMin, float blackMin){
 	this->whiteMin = whiteMin;
 	this->blackMin = blackMin;
-	this->resize_factor = resize_factor;
 }
 
 bool pixelCountCheck::run(cv::Vec3f candidate, cv::Mat whiteMask, cv::Mat blackMask, cv::Mat frame){
@@ -15,10 +14,10 @@ bool pixelCountCheck::run(cv::Vec3f candidate, cv::Mat whiteMask, cv::Mat blackM
 	int whiteCount, blackCount;
 
 	cv::Point center;
-	center.x = cvRound(candidate[0]*this->resize_factor);
-    center.y = cvRound(candidate[1]*this->resize_factor);
+	center.x = cvRound(candidate[0]);
+    center.y = cvRound(candidate[1]);
     
-    int radius = cvRound(candidate[2]*this->resize_factor);
+    int radius = cvRound(candidate[2]);
 
 	cv::circle(canvas, center, radius, cv::Scalar(255,255,255), -1, 8, 0 );
 
@@ -33,7 +32,8 @@ bool pixelCountCheck::run(cv::Vec3f candidate, cv::Mat whiteMask, cv::Mat blackM
 	float area =  CV_PI * radius * radius;
 
 	#ifdef DEBUG
-	cv::imshow("debug2", maskedWhite);
+	cv::imshow("white", whiteMask);
+	cv::imshow("black", blackMask);
 	std::cout << "x: " << candidate[0] << "\ty: " << candidate[1] << std::endl;
 	std::cout << "whiteCount: " << whiteCount << std::endl;
 	std::cout << "blackCount: " << blackCount << std::endl;

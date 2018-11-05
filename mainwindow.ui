@@ -171,6 +171,11 @@
      </item>
      <item>
       <property name="text">
+       <string>raphaDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>fieldDetector</string>
       </property>
      </item>

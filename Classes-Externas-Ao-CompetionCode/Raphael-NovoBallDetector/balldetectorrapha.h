@@ -5,17 +5,29 @@
 #include "./include/houghCirclesContrast.h"
 #include "./include/quaternaryMask.h"
 #include "./include/pixelCountCheck.hpp"
+#include "./include/evaluator.hpp"
+#include "./include/dilate.hpp"
 
 
-#define BLACK_L_MAX 50
+#define BLACK_L_MAX 40
 #define WHITE_L_MIN 200
-#define GREEN_H_MEAN 60
-#define GREEN_H_VAR 40
-#define GREEN_S_MIN 10
+#define GREEN_H_MEAN 50
+#define GREEN_H_VAR 20
+#define GREEN_S_MIN 40
 #define HOUGH_PARAM_1 20
 #define HOUGH_PARAM_2 28
 #define PIXEL_PARAM_1 0.55
 #define PIXEL_PARAM_2 0.35
+
+#define MIN_RADIUS 10
+#define MAX_RADIUS 30
+
+#define DILATION 1
+
+#define N_OF_CANDIDATES 10
+
+#define RESIZE_FACTOR 0.5
+
 
 
 class ballDetectorRapha: public FeatureDetector
@@ -30,16 +42,23 @@ public:
         hough_param1(HOUGH_PARAM_1),
         hough_param2(HOUGH_PARAM_2),
         pixel_param1(PIXEL_PARAM_1),
-        pixel_param2(PIXEL_PARAM_2)
+        pixel_param2(PIXEL_PARAM_2),
+        resize_factor(0.5)
     {}
     virtual void run(cv::Mat src, cv::Mat src2, PerceptionData *data);
     virtual void updateData(PerceptionData *);
 
+#ifdef DEBUG_PERCEPTION
+    std::vector<cv::Mat> debugImgVector;
+#endif
+
     int blackLMax, whiteLMin, greenHMean, greenHVar, greenSMin;
-    float hough_param1, hough_param2, pixel_param1, pixel_param2;
+    double hough_param1, hough_param2, pixel_param1, pixel_param2;
 private:
     std::vector<cv::Vec3f> circles;
-    float resize_factor;
+    double resize_factor;
+    dilate Dilater;
+    quaternaryMask Mask;
 
 
 

@@ -13,13 +13,13 @@
 class pixelCountCheck
 {
 public:
-	pixelCountCheck(float whiteMin, float blackMin, float resize_factor);
+	pixelCountCheck(float whiteMin, float blackMin);
 	
 	// minimal percentage of pixels in area
 	// area = r² * pi
-	float whiteMin, blackMin, resize_factor;
+	float whiteMin, blackMin;
 
-    bool run(cv::Vec3f candidate, cv::Mat whiteMask, cv::Mat blackMask, cv::Mat frame);
+	bool run(cv::Vec3f candidate, cv::Mat whiteMask, cv::Mat blackMask, cv::Mat frame);
 };
 
 #endif
