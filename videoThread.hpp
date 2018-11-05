@@ -26,6 +26,7 @@
 #include <ellipseDetector.hpp>
 #include <lineDetector.hpp>
 #include <goalDetector.hpp>
+#include "./Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/balldetectorrapha.h"
 
 
 class VideoThread : public QObject
@@ -103,6 +104,7 @@ public:
     GoalDetector goalDetector;
     LineDetector lineDetector;
     YellowDetector yellowDetector;
+    ballDetectorRapha raphaDetector;
 
     PerceptionData visionData;
 

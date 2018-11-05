@@ -30,6 +30,11 @@ set(_srcs
   Arquivos-do-competionCode/unboard/BehaviorRequest.hpp
   Arquivos-do-competionCode/thread/threadClass.cpp
   Arquivos-do-competionCode/module/basemodule.cpp
+  Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/balldetectorrapha.cpp
+  Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/balldetectorrapha.h
+  Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/include/*.h
+  Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/src/*.cpp
+  Classes-Externas-Ao-CompetionCode/Raphael-NovoBallDetector/include/*.hpp
 )
 
 #Behaviour Sources
@@ -149,6 +154,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/Arquivos-do-competionCode/thread
 ${CMAKE_CURRENT_SOURCE_DIR}/Arquivos-do-competionCode/common
 ${CMAKE_CURRENT_SOURCE_DIR}/Arquivos-do-competionCode/module
 ${CMAKE_CURRENT_SOURCE_DIR}/Arquivos-do-competionCode/motion/runswift
+${CMAKE_CURRENT_SOURCE_DIR}/Classes-Externas-Ao-competionCode/
 )
 
 # Wrap the files to generate all neccesary 'moc' and 'ui' files
