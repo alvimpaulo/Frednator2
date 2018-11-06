@@ -42,8 +42,7 @@ public:
         hough_param1(HOUGH_PARAM_1),
         hough_param2(HOUGH_PARAM_2),
         pixel_param1(PIXEL_PARAM_1),
-        pixel_param2(PIXEL_PARAM_2),
-        resize_factor(0.5)
+        pixel_param2(PIXEL_PARAM_2)
     {}
     virtual void run(cv::Mat src, cv::Mat src2, PerceptionData *data);
     virtual void updateData(PerceptionData *);
@@ -53,10 +52,10 @@ public:
 #endif
 
     int blackLMax, whiteLMin, greenHMean, greenHVar, greenSMin;
-    double hough_param1, hough_param2, pixel_param1, pixel_param2;
+    double hough_param1, hough_param2;
+    float pixel_param1, pixel_param2;
 private:
     std::vector<cv::Vec3f> circles;
-    double resize_factor;
     dilate Dilater;
     quaternaryMask Mask;
 

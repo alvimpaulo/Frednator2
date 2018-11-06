@@ -308,6 +308,11 @@ void VideoThread::perception2Frednator(QString functionName, QComboBox* vectorSe
             returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
         }
 
+        if(functionSelected == "ballDetector2"){
+            ballDetector2.run(imgHead, imgBody, &visionData);
+            returnImg = this->vectorSelectionInterface(vectorSelection, &visionData, &functionName);
+        }
+
         if(functionSelected == "raphaDetector"){
             raphaDetector.run(imgHead, imgBody, &visionData); //roda a classe e atualiza a raphaDetector
 
@@ -438,6 +443,9 @@ void VideoThread::stopThread()
         cap->release();
         isConnected = false;
         //delete(cap);
+        while(videoLoopRunning){
+            std::cout<<"fechando programa" <<std::endl;
+        }
     }
     emit terminateThread();
 }

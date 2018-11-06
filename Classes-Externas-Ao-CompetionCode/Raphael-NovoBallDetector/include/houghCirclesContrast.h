@@ -15,10 +15,10 @@ class houghCirclesContrast
 public:
     houghCirclesContrast(double param1, double param2, double minDist, int minRadius, int maxRadius);
 
-    double dp, minDist, param1, param2;
+    double dp, minDist, param1,param2;
     int maxRadius, minRadius;
 
-    std::vector<cv::Vec3f> run(cv::Mat frame);
+    std::vector<cv::Vec3f> run(cv::Mat frame, std::vector<cv::Vec3f> circles);
 };
 
 #endif // HOUGHCIRCLESCONTRAST_H

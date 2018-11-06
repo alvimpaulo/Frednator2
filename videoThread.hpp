@@ -21,6 +21,7 @@
 
 #include <yellowDetector.hpp>
 #include <ballDetector.hpp>
+#include <ballDetector2.hpp>
 #include <fieldDetector.hpp>
 #include <fieldDetector2.hpp>
 #include <ellipseDetector.hpp>
@@ -98,6 +99,7 @@ public:
     void perception2Frednator(QString functionName, QComboBox* vectorSelection);
 
     BallDetector ballDetector;
+    BallDetector2 ballDetector2;
     EllipseDetector ellipseDetector;
     FieldDetector fieldDetector;
     FieldDetector2 fieldDetector2;

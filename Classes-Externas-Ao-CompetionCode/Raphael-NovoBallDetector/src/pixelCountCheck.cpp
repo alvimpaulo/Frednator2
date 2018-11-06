@@ -1,4 +1,4 @@
-#include "pixelCountCheck.hpp"
+#include "../include/pixelCountCheck.hpp"
 
 // #define DEBUG 1 //printa valores na linha de comando
 

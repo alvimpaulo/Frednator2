@@ -1,4 +1,4 @@
-#include "houghCirclesContrast.h"
+#include "../include/houghCirclesContrast.h"
 
 houghCirclesContrast::houghCirclesContrast(double param1, double param2, double minDist, int minRadius, int maxRadius)
 {
@@ -7,12 +7,13 @@ houghCirclesContrast::houghCirclesContrast(double param1, double param2, double 
     this->minDist = minDist; //min distance between balls
     this->minRadius = minRadius; // min ball radius
     this->maxRadius = maxRadius; // max ball radius
+    this->dp = 1.0;
 
 }
 
-std::vector<cv::Vec3f> houghCirclesContrast::run(cv::Mat frame){
+std::vector<cv::Vec3f> houghCirclesContrast::run(cv::Mat frame, std::vector<cv::Vec3f> circles) {
 
-    this->dp = 1;
+
 
     /*
     dp – Inverse ratio of the accumulator resolution to the image resolution. For example, if dp=1 , the accumulator has the same resolution as the input image. If dp=2 , the accumulator has half as big width and height.
@@ -23,13 +24,13 @@ std::vector<cv::Vec3f> houghCirclesContrast::run(cv::Mat frame){
     maxRadius – Maximum circle radius.
     */
 
-    std::vector<cv::Vec3f> circles;
+    //std::vector<cv::Vec3f> circles;
 
     cv::Mat gray;
 
     // resize
     cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
-    cv::imshow("gray", gray);
+    //cv::imshow("gray", gray);
 
     cv::HoughCircles( gray, circles, CV_HOUGH_GRADIENT, dp, minDist, param1, param2, minRadius, maxRadius );
 

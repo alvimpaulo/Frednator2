@@ -37,10 +37,47 @@ void FieldDetector2::run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data)
         cv::line(lineOutput, cv::Point(0,horizont), cv::Point(lineOutput.cols-1, horizont), cv::Scalar(0,0,255), 2,8,0);
     }
 
+    cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT, cv::Size(3,3), cv::Point(-1,-1));
+    cv::Mat erodeOutput,dilateOutput;
+
+    if(kernel>0){
+        element = cv::getStructuringElement( cv::MORPH_RECT, cv::Size(kernel,kernel), cv::Point(-1,-1));
+    }
+    cv::erode(src_HLS, erodeOutput,element, cv::Point(-1,-1),1, cv::BORDER_CONSTANT);
+    cv::dilate(erodeOutput, dilateOutput, element, cv::Point(-1,-1),1, cv::BORDER_CONSTANT);
+
+    cv::Mat ballOutput = imgTop.clone();
+
+    std::vector<cv::Vec3f> circles;
+
+    cv::HoughCircles(dilateOutput, circles, CV_HOUGH_GRADIENT, dp, minDist, param1, param2, minRadius, maxRadius);
+
+    for( int i = 0; i < circles.size(); i++ )
+    {
+       cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+       int radius = cvRound(circles[i][2]);
+       cv::circle( ballOutput, center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
+       // circle outline
+       circle( ballOutput, center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
+     }
+
+
 
 #ifdef DEBUG_PERCEPTION
     debugImgVector.push_back(lineOutput);
+
+    cv::cvtColor(erodeOutput, erodeOutput, CV_GRAY2BGR);
+    debugImgVector.push_back(erodeOutput); //2
+    cv::cvtColor(erodeOutput,erodeOutput, CV_BGR2GRAY);
+
+    cv::cvtColor( dilateOutput, dilateOutput, CV_GRAY2BGR);
+    debugImgVector.push_back(dilateOutput); //2
+    cv::cvtColor(dilateOutput, dilateOutput, CV_BGR2GRAY);
+
+    debugImgVector.push_back(ballOutput);
 #endif
+
+
 
 
 

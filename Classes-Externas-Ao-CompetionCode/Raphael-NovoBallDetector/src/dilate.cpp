@@ -1,4 +1,4 @@
-#include "dilate.hpp"
+#include "../include/dilate.hpp"
 
 //#define DEBUG 1
 

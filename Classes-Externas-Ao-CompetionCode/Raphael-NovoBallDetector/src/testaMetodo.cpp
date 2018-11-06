@@ -1,4 +1,4 @@
-#include "testaMetodo.hpp"
+#include "../include/testaMetodo.hpp"
 /*
 testaMetodo::testaMetodo (char* name_file, float a, float b){
 	ifstream myfile(name_file);

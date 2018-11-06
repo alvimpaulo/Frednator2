@@ -32,7 +32,7 @@ public:
     BallDetector():Y_SWITCH_TO_BOTCAMERA(200), Y_SWITCH_TO_TOPCAMERA(30){}
     ballCandidate getBestBallCandidate(std::vector<ballCandidate> candidates);
     std::vector<ballCandidate> findBallCandidates(cv::Mat image);
-    virtual void run(cv::Mat botImg, cv::Mat, PerceptionData *data);
+    virtual void run(cv::Mat topImg, cv::Mat botImg, PerceptionData *data);
     virtual void updateData(PerceptionData* data);
 };
 

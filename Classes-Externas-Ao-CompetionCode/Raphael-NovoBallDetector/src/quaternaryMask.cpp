@@ -1,4 +1,4 @@
-#include "quaternaryMask.h"
+#include "../include/quaternaryMask.h"
 
 //#define DEBUG 1
 

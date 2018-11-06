@@ -96,26 +96,13 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="commandsLabel">
-    <property name="geometry">
-     <rect>
-      <x>1100</x>
-      <y>140</y>
-      <width>81</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Commands</string>
-    </property>
-   </widget>
    <widget class="QFrame" name="commandArea">
     <property name="geometry">
      <rect>
-      <x>980</x>
-      <y>170</y>
+      <x>880</x>
+      <y>130</y>
       <width>341</width>
-      <height>501</height>
+      <height>541</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -128,7 +115,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>10</y>
+       <y>0</y>
        <width>121</width>
        <height>27</height>
       </rect>
@@ -141,7 +128,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>50</y>
+       <y>30</y>
        <width>121</width>
        <height>27</height>
       </rect>
@@ -154,7 +141,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>90</y>
+       <y>60</y>
        <width>121</width>
        <height>27</height>
       </rect>
@@ -167,6 +154,11 @@
      <item>
       <property name="text">
        <string>ballDetector</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ballDetector2</string>
       </property>
      </item>
      <item>
@@ -209,7 +201,7 @@
      <property name="geometry">
       <rect>
        <x>120</x>
-       <y>130</y>
+       <y>90</y>
        <width>85</width>
        <height>27</height>
       </rect>
@@ -219,33 +211,20 @@
      <property name="geometry">
       <rect>
        <x>29</x>
-       <y>179</y>
+       <y>129</y>
        <width>281</width>
-       <height>291</height>
+       <height>411</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="ParamLayout"/>
     </widget>
    </widget>
-   <widget class="QLabel" name="unbeatablesLogo">
-    <property name="geometry">
-     <rect>
-      <x>1030</x>
-      <y>10</y>
-      <width>241</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="simulatorName">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>30</x>
       <y>20</y>
-      <width>771</width>
+      <width>921</width>
       <height>81</height>
      </rect>
     </property>
@@ -259,6 +238,19 @@
     </property>
     <property name="text">
      <string>Frednator</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="unbeatablesLogo">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>0</y>
+      <width>241</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

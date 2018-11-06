@@ -1,4 +1,4 @@
-#include "evaluator.hpp"
+#include "../include/evaluator.hpp"
 
 //#define DEBUG 1 //usar junto com debug da main.cpp
 

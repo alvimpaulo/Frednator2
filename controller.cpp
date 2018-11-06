@@ -115,6 +115,16 @@ void Controller::stopRecording()
 void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection, QFormLayout* paramLayout){
     newfunction = newFunction;
 
+    QLayoutItem* child;
+    while((child = paramLayout->takeAt(0)) != 0){
+        if (child->widget()) {
+            delete child->widget();
+        }
+        else{
+            delete child;
+        }
+    }
+
     if(newFunction == "yellowDetector"){ // adicionar os line edits e labels com os argumentos da classe do detector
 
         //iLowH
@@ -162,7 +172,7 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
 
     }
 
-    if(newFunction == "fieldDetector2"){ // adicionar os line edits e labels com os argumentos da classe do detector
+    else if(newFunction == "fieldDetector2"){ // adicionar os line edits e labels com os argumentos da classe do detector
 
         //iLowH
         QLineEdit* iLowHLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.iLowH));
@@ -214,18 +224,197 @@ void Controller::functionChanged(QString newFunction, QComboBox* vectorSelection
         connect(factorLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
         paramLayout->addRow("factor", factorLineEdit);
 
+        //dp
+        QLineEdit* dpLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.dp));
+        dpLineEdit->setPlaceholderText("dp");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("dp", dpLineEdit)); // nao se vou usar
+        connect(dpLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("dp", dpLineEdit);
+
+        //minDist
+        QLineEdit* minDistLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.minDist));
+        minDistLineEdit->setPlaceholderText("minDist");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minDist", minDistLineEdit)); // nao se vou usar
+        connect(minDistLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minDist", minDistLineEdit);
+
+        //param1
+        QLineEdit* param1LineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.param1));
+        param1LineEdit->setPlaceholderText("param1");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("param1", param1LineEdit)); // nao se vou usar
+        connect(param1LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("param1", param1LineEdit);
+
+        //param2
+        QLineEdit* param2LineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.param2));
+        param2LineEdit->setPlaceholderText("param2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("param2", param2LineEdit)); // nao se vou usar
+        connect(param2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("param2", param2LineEdit);
+
+        //maxRadius
+        QLineEdit* maxRadiusLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.maxRadius));
+        maxRadiusLineEdit->setPlaceholderText("maxRadius");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("maxRadius", maxRadiusLineEdit)); // nao se vou usar
+        connect(maxRadiusLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("maxRadius", maxRadiusLineEdit);
+
+        //minRadius
+        QLineEdit* minRadiusLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.minRadius));
+        minRadiusLineEdit->setPlaceholderText("minRadius");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minRadius", minRadiusLineEdit)); // nao se vou usar
+        connect(minRadiusLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minRadius", minRadiusLineEdit);
+
+        //kernel
+        QLineEdit* kernelLineEdit = new QLineEdit(QString::number(videoThread->fieldDetector2.kernel));
+        kernelLineEdit->setPlaceholderText("kernel");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("kernel", kernelLineEdit)); // nao se vou usar
+        connect(kernelLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("kernel", kernelLineEdit);
+
     }
 
-    else{
-       QLayoutItem* child;
-       while((child = paramLayout->takeAt(0)) != 0){
-           if (child->widget()) {
-               delete child->widget();
-           }
-           else{
-               delete child;
-           }
-       }
+    else if(newFunction == "ballDetector2"){
+        //iLowH
+        QLineEdit* iLowHLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowH));
+        iLowHLineEdit->setPlaceholderText("ILowH");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowH", iLowHLineEdit)); // nao sei se vou usar
+        connect(iLowHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("ILowH", iLowHLineEdit);
+
+
+        //iHighH
+        QLineEdit* iHighHLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighH));
+        iHighHLineEdit->setPlaceholderText("iHighH");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighH", iHighHLineEdit)); // nao sei se vou usar
+        connect(iHighHLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighH", iHighHLineEdit);
+
+        //iLowL
+        QLineEdit* iLowLLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowL));
+        iLowLLineEdit->setPlaceholderText("iLowL");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowL", iLowLLineEdit)); // nao sei se vou usar
+        connect(iLowLLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowL", iLowLLineEdit);
+
+        //iHighL
+        QLineEdit* iHighLLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighL));
+        iHighLLineEdit->setPlaceholderText("iHighL");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighL", iHighLLineEdit)); // nao sei se vou usar
+        connect(iHighLLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighL", iHighLLineEdit);
+
+        //iLowS
+        QLineEdit* iLowSLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowS));
+        iLowSLineEdit->setPlaceholderText("iLowS");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowS", iLowSLineEdit)); // nao sei se vou usar
+        connect(iLowSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowS", iLowSLineEdit);
+
+        //iHighS
+        QLineEdit* iHighSLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighS));
+        iHighSLineEdit->setPlaceholderText("iHighS");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighS", iHighSLineEdit)); // nao se vou usar
+        connect(iHighSLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighS", iHighSLineEdit);
+
+
+
+        //iLowH2
+        QLineEdit* iLowH2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowH2));
+        iLowH2LineEdit->setPlaceholderText("iLowH2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowH2", iLowH2LineEdit)); // nao sei se vou usar
+        connect(iLowH2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowH2", iLowH2LineEdit);
+
+
+        //iHighH2
+        QLineEdit* iHighH2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighH2));
+        iHighH2LineEdit->setPlaceholderText("iHighH2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighH2", iHighH2LineEdit)); // nao sei se vou usar
+        connect(iHighH2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighH2", iHighH2LineEdit);
+
+        //iLowL2
+        QLineEdit* iLowL2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowL2));
+        iLowL2LineEdit->setPlaceholderText("iLowL2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowL2", iLowL2LineEdit)); // nao sei se vou usar
+        connect(iLowL2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowL2", iLowL2LineEdit);
+
+        //iHighL2
+        QLineEdit* iHighL2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighL2));
+        iHighL2LineEdit->setPlaceholderText("iHighL2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighL2", iHighL2LineEdit)); // nao sei se vou usar
+        connect(iHighL2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighL2", iHighL2LineEdit);
+
+        //iLowS2
+        QLineEdit* iLowS2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iLowS2));
+        iLowS2LineEdit->setPlaceholderText("iLowS2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iLowS2", iLowS2LineEdit)); // nao sei se vou usar
+        connect(iLowS2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iLowS2", iLowS2LineEdit);
+
+        //iHighS2
+        QLineEdit* iHighS2LineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.iHighS2));
+        iHighS2LineEdit->setPlaceholderText("iHighS2");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("iHighS2", iHighS2LineEdit)); // nao se vou usar
+        connect(iHighS2LineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("iHighS2", iHighS2LineEdit);
+
+
+
+        //kernel
+        QLineEdit* kernelLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.kernel));
+        kernelLineEdit->setPlaceholderText("kernel");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("kernel", kernelLineEdit)); // nao se vou usar
+        connect(kernelLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("kernel", kernelLineEdit);
+
+        //minThreshold
+        QLineEdit* minThresholdLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.minThreshold));
+        minThresholdLineEdit->setPlaceholderText("minThreshold");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minThreshold", minThresholdLineEdit)); // nao se vou usar
+        connect(minThresholdLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minThreshold", minThresholdLineEdit);
+
+        //maxThreshold
+        QLineEdit* maxThresholdLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.maxThreshold));
+        maxThresholdLineEdit->setPlaceholderText("maxThreshold");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("maxThreshold", maxThresholdLineEdit)); // nao se vou usar
+        connect(maxThresholdLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("maxThreshold", maxThresholdLineEdit);
+
+        //minArea
+        QLineEdit* minAreaLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.minArea));
+        minAreaLineEdit->setPlaceholderText("minArea");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minArea", minAreaLineEdit)); // nao se vou usar
+        connect(minAreaLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minArea", minAreaLineEdit);
+
+        //minCircularity
+        QLineEdit* minCircularityLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.minCircularity));
+        minCircularityLineEdit->setPlaceholderText("minCircularity");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minCircularity", minCircularityLineEdit)); // nao se vou usar
+        connect(minCircularityLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minCircularity", minCircularityLineEdit);
+
+        //minConvexity
+        QLineEdit* minConvexityLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.minConvexity));
+        minConvexityLineEdit->setPlaceholderText("minConvexity");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minConvexity", minConvexityLineEdit)); // nao se vou usar
+        connect(minConvexityLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minConvexity", minConvexityLineEdit);
+
+        //minInertiaRatio
+        QLineEdit* minInertiaRatioLineEdit = new QLineEdit(QString::number(videoThread->ballDetector2.minInertiaRatio));
+        minInertiaRatioLineEdit->setPlaceholderText("minInertiaRatio");
+        this->lineEditMap.insert(std::pair<QString, QLineEdit*>("minInertiaRatio", minInertiaRatioLineEdit)); // nao se vou usar
+        connect(minInertiaRatioLineEdit, SIGNAL(returnPressed()), this, SLOT(paramChanged()));
+        paramLayout->addRow("minInertiaRatio", minInertiaRatioLineEdit);
+
     }
 
     videoThread->functionChanged(newFunction, vectorSelection, paramLayout);
@@ -255,7 +444,7 @@ void Controller::paramChanged(){
         }
     }
 
-    if(newfunction == "fieldDetector2"){
+    else if(newfunction == "fieldDetector2"){
         if(lineEdit->placeholderText() == "ILowH"){
             videoThread->fieldDetector2.iLowH = (lineEdit->text().toInt());
         }
@@ -277,8 +466,92 @@ void Controller::paramChanged(){
         else if(lineEdit->placeholderText() == "factor"){
             videoThread->fieldDetector2.factor = (lineEdit->text().toFloat());
         }
+        else if(lineEdit->placeholderText() == "dp"){
+            videoThread->fieldDetector2.dp = (lineEdit->text().toDouble());
+        }
+        else if(lineEdit->placeholderText() == "minDist"){
+            videoThread->fieldDetector2.minDist = (lineEdit->text().toDouble());
+        }
+        else if(lineEdit->placeholderText() == "param1"){
+            videoThread->fieldDetector2.param1 = (lineEdit->text().toDouble());
+        }
+        else if(lineEdit->placeholderText() == "param2"){
+            videoThread->fieldDetector2.param2 = (lineEdit->text().toDouble());
+        }
+        else if(lineEdit->placeholderText() == "maxRadius"){
+            videoThread->fieldDetector2.maxRadius = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minRadius"){
+            videoThread->fieldDetector2.minRadius = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "kernel"){
+            videoThread->fieldDetector2.kernel = (lineEdit->text().toInt());
+        }
     }
 
+    else if(newfunction == "ballDetector2"){
+        if(lineEdit->placeholderText() == "ILowH"){
+            videoThread->ballDetector2.iLowH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighH"){
+            videoThread->ballDetector2.iHighH = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowL"){
+            videoThread->ballDetector2.iLowL = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighL"){
+            videoThread->ballDetector2.iHighL = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowS"){
+            videoThread->ballDetector2.iLowS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighS"){
+            videoThread->ballDetector2.iHighS = (lineEdit->text().toInt());
+        }
+
+        else if(lineEdit->placeholderText() == "ILowH2"){
+            videoThread->ballDetector2.iLowH2 = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighH2"){
+            videoThread->ballDetector2.iHighH2 = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowL2"){
+            videoThread->ballDetector2.iLowL2 = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighL2"){
+            videoThread->ballDetector2.iHighL2 = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iLowS2"){
+            videoThread->ballDetector2.iLowS2 = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "iHighS2"){
+            videoThread->ballDetector2.iHighS2 = (lineEdit->text().toInt());
+        }
+
+        if(lineEdit->placeholderText() == "kernel"){
+            videoThread->ballDetector2.kernel = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minThreshold"){
+            videoThread->ballDetector2.minThreshold = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "maxThreshold"){
+            videoThread->ballDetector2.maxThreshold = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minArea"){
+            videoThread->ballDetector2.minArea = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minCircularity"){
+            videoThread->ballDetector2.minCircularity = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minConvexity"){
+            videoThread->ballDetector2.iHighS = (lineEdit->text().toInt());
+        }
+        else if(lineEdit->placeholderText() == "minInertiaRatio"){
+            videoThread->ballDetector2.minInertiaRatio = (lineEdit->text().toInt());
+        }
+
+
+    }
 
 }
 

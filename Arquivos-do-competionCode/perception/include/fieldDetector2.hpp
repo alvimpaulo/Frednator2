@@ -22,7 +22,14 @@ public:
         iHighL(200),
         iLowS(10),
         iHighS(255),
-        factor(1.0)
+        factor(1.0),
+        dp(1),
+        minDist(30),
+        param1(62),
+        param2(5),
+        maxRadius(30),
+        minRadius(5),
+        kernel(3)
     {}
     cv::Mat getGreenRegion();
     virtual void run(cv::Mat imgTop, cv::Mat imgBot, PerceptionData *data);
@@ -30,8 +37,9 @@ public:
 
     //Green HSL values range definitions
     int iLowH, iHighH, iLowS, iHighS, iLowL, iHighL;
-    int factor_int;
     float factor;
+    double dp, minDist, param1, param2;
+    int maxRadius, minRadius, kernel;
 };
 
 #endif // FIELDDETECTOR2_HPP
