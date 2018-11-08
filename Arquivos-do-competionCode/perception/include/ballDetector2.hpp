@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "featureDetector.hpp"
+#include <unBoard.hpp>
 
 typedef struct ball2Candidate {
     cv::Point center;
@@ -23,33 +24,34 @@ class BallDetector2 : public FeatureDetector
 {
 private:
     ball2Candidate bestCandidate;
+    PerceptionData vision;
 #ifdef DEBUG_PERCEPTION
     std::vector<cv::Mat> debugImgVector;
 #endif
 public:
 
     BallDetector2():
-        iLowH(30),
+        iLowH(45),
         iHighH(90),
-        iLowL(50),
-        iHighL(200),
-        iLowS(10),
-        iHighS(255),
-        iLowH2(30),
-        iHighH2(90),
-        iLowL2(50),
+        iLowL(35),
+        iHighL(170),
+        iLowS(30),
+        iHighS(150),
+        iLowH2(0),
+        iHighH2(180),
+        iLowL2(80),
         iHighL2(200),
-        iLowS2(10),
-        iHighS2(255),
+        iLowS2(0),
+        iHighS2(200),
         kernel(3),
         minThreshold(150),
         maxThreshold(250),
         filterByArea(true),
-        minArea(500),
+        minArea(400),
         filterByCircularity(true),
-        minCircularity(0.2),
+        minCircularity(0.4),
         filterByConvexity(true),
-        minConvexity(0.001),
+        minConvexity(0.01),
         filterByInertia(true),
         minInertiaRatio(0.01)
     {}

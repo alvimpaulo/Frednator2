@@ -509,7 +509,7 @@ void Controller::paramChanged(){
             videoThread->ballDetector2.iHighS = (lineEdit->text().toInt());
         }
 
-        else if(lineEdit->placeholderText() == "ILowH2"){
+        else if(lineEdit->placeholderText() == "iLowH2"){
             videoThread->ballDetector2.iLowH2 = (lineEdit->text().toInt());
         }
         else if(lineEdit->placeholderText() == "iHighH2"){
@@ -538,16 +538,16 @@ void Controller::paramChanged(){
             videoThread->ballDetector2.maxThreshold = (lineEdit->text().toInt());
         }
         else if(lineEdit->placeholderText() == "minArea"){
-            videoThread->ballDetector2.minArea = (lineEdit->text().toInt());
+            videoThread->ballDetector2.minArea = (lineEdit->text().toDouble());
         }
         else if(lineEdit->placeholderText() == "minCircularity"){
-            videoThread->ballDetector2.minCircularity = (lineEdit->text().toInt());
+            videoThread->ballDetector2.minCircularity = (lineEdit->text().toDouble());
         }
         else if(lineEdit->placeholderText() == "minConvexity"){
-            videoThread->ballDetector2.iHighS = (lineEdit->text().toInt());
+            videoThread->ballDetector2.minConvexity = (lineEdit->text().toDouble());
         }
         else if(lineEdit->placeholderText() == "minInertiaRatio"){
-            videoThread->ballDetector2.minInertiaRatio = (lineEdit->text().toInt());
+            videoThread->ballDetector2.minInertiaRatio = (lineEdit->text().toDouble());
         }
 
 
